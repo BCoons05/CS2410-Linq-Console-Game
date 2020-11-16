@@ -1,0 +1,13 @@
+C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.csprojAssemblyReference.cache
+C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.csproj.CoreCompileInputs.cache
+C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.AssemblyInfoInputs.cache
+C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.AssemblyInfo.cs
+C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\ConsolePlatformer.exe
+C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\ConsolePlatformer.deps.json
+C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\ConsolePlatformer.runtimeconfig.json
+C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\ConsolePlatformer.runtimeconfig.dev.json
+C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\ConsolePlatformer.dll
+C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\ConsolePlatformer.pdb
+C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.dll
+C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.pdb
+C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.genruntimeconfig.cache
