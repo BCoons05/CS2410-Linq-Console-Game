@@ -16,10 +16,10 @@ namespace ConsolePlatformer
         Random rnd = new Random();
         private int projCounter;
         private int enemyCounter;
-        public Game()
+        public Game(Player player, Background background, IEnumerable<IWeapon> inventory)
         {
-            background = new Background(1, 105, 5, 29);
-            player = new Player(background, background.LeftWall + 3, background.TopWall + 10, 25);
+            this.background = background;
+            this.player = player;
             projCounter = 0;
             enemyCounter = 0;
         }
@@ -38,7 +38,7 @@ namespace ConsolePlatformer
             bool running = true;
             clock.Start();
 
-            do
+            while (running)
             {
                 if(clock.ElapsedMilliseconds % 50 == 0)
                 {
@@ -47,7 +47,7 @@ namespace ConsolePlatformer
 
                     if (clock.ElapsedMilliseconds % 5000 == 0)
                     {
-                        Enemy enemy = new Enemy(rnd.Next(2, 6), background, rnd.Next(background.LeftWall + 2, background.RightWall - 1), rnd.Next(background.TopWall + 2, background.BottomWall - 1), 5, 5, player, this);
+                        Enemy enemy = new Enemy(rnd.Next(2, 6), background, rnd.Next(background.LeftWall + 2, background.RightWall - 1), rnd.Next(background.TopWall + 2, background.BottomWall - 1), 15, 5, player, this);
                         enemies.Add(enemy);
                         enemy.Draw();
                         if (enemies.Count > 20)
@@ -86,10 +86,13 @@ namespace ConsolePlatformer
                                 player.MoveDown();
                                 break;
                             case ConsoleKey.Spacebar:
-                                Projectile projectile = new Projectile(player.Position + 1, player.Bottom - 1, player.Direction, 5, 5, background);
+                                Projectile projectile = player.EquipedWeapon.Fire();
                                 projectiles.Add(projectile);
                                 if(projectiles.Count > 20)
                                     projCounter++;
+                                break;
+                            case ConsoleKey.P:
+                                clock.Stop();
                                 break;
                             case ConsoleKey.Escape:
                                 running = false;
@@ -98,8 +101,9 @@ namespace ConsolePlatformer
                     }
                     player.Draw();
                 }
-            } while (running);
+            }
             clock.Stop();
+            clock.Reset();
         }
 
         /// <summary>

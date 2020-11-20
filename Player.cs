@@ -5,15 +5,17 @@ using System.Text;
 
 namespace ConsolePlatformer
 {
+	enum Directions { RIGHT, LEFT, UP, DOWN }
     class Player
     {
 		private Background background;
 		public int Position { get; private set; }
-		public string Direction { get; private set; }
+		public Directions Direction { get; private set; }
 		private bool moving;
 		public int Bottom { get; private set; }
 		public int MaxHealth { get; private set; }
 		public int CurrentHealth { get; private set; }
+		public IWeapon EquipedWeapon { get; private set; }
 		private ConsoleColor Color = ConsoleColor.Red;
 		public Player(Background background, int position, int bottom, int health)
 		{
@@ -22,39 +24,44 @@ namespace ConsolePlatformer
 			Bottom = bottom;
 			MaxHealth = health;
 			CurrentHealth = health;
-			Direction = "Right";
+			Direction = Directions.RIGHT;
+		}
+
+		public void EquipWeapon(IWeapon weapon)
+		{
+			EquipedWeapon = weapon;
 		}
 
 		public void MoveRight()
 		{
-			if (Direction == "Right")
+			if (Direction == Directions.RIGHT)
 				moving = true;
 			else
-				Direction = "Right";
+				Direction = Directions.RIGHT;
 		}
 
 		public void MoveLeft()
 		{
-			if (Direction == "Left")
+			if (Direction == Directions.LEFT)
 				moving = true;
 			else
-				Direction = "Left";
+				Direction = Directions.LEFT;
 		}
 
 		public void MoveDown()
 		{
-			if (Direction == "Down")
+			if (Direction == Directions.DOWN)
 				moving = true;
 			else
-				Direction = "Down";
+				Direction = Directions.DOWN;
 		}
 
 		public void MoveUp()
 		{
-			if (Direction == "Up")
+			if (Direction == Directions.UP)
 				moving = true;
 			else
-				Direction = "Up";
+				Direction = Directions.UP;
 		}
 
 		public void HitTest(Enemy enemy)
@@ -87,19 +94,19 @@ namespace ConsolePlatformer
 			{
 				switch (Direction)
 				{
-					case ("Left"):
+					case (Directions.LEFT):
 						if(Position > background.LeftWall + 2)
 							Position--;
 						break;
-					case ("Right"):
+					case (Directions.RIGHT):
 						if (Position < background.RightWall - 1)
 							Position++;
 						break;
-					case ("Up"):
+					case (Directions.UP):
 						if (Bottom > background.TopWall + 3)
 							Bottom--;
 						break;
-					case ("Down"):
+					case (Directions.DOWN):
 						if (Bottom < background.BottomWall - 1)
 							Bottom++;
 						break;
@@ -129,27 +136,27 @@ namespace ConsolePlatformer
 			{
 				switch (Direction)
 				{
-					case ("Left"):
+					case (Directions.LEFT):
 						Console.BackgroundColor = color;
 						Console.Write(' ');
 						Console.SetCursorPosition(position - 1, bottom - 1);
 						Console.BackgroundColor = ConsoleColor.DarkYellow;
 						Console.Write('*');
 						break;
-					case ("Right"):
+					case (Directions.RIGHT):
 						Console.BackgroundColor = ConsoleColor.DarkYellow;
 						Console.Write('*');
 						Console.SetCursorPosition(position - 1, bottom - 1);
 						Console.BackgroundColor = color;
 						Console.Write(' ');
 						break;
-					case ("Up"):
+					case (Directions.UP):
 						Console.BackgroundColor = color;
 						Console.Write(' ');
 						Console.SetCursorPosition(position - 1, bottom - 1);
 						Console.Write(' ');
 						break;
-					case ("Down"):
+					case (Directions.DOWN):
 						Console.BackgroundColor = ConsoleColor.DarkYellow;
 						Console.Write('*');
 						Console.SetCursorPosition(position - 1, bottom - 1);

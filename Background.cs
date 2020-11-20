@@ -26,7 +26,7 @@ namespace ConsolePlatformer
 			Console.SetCursorPosition(TopWall - 2, LeftWall + 2);
 			Console.Write($"HEALTH: ");
 			int i;
-			Console.BackgroundColor = player.CurrentHealth > 15 ? ConsoleColor.Green : player.CurrentHealth > 5 ? ConsoleColor.Yellow : ConsoleColor.Red;
+			Console.BackgroundColor = player.CurrentHealth > 15 ? ConsoleColor.Green : player.CurrentHealth > 5 ? ConsoleColor.DarkYellow : ConsoleColor.Red;
 			for (i = 0; i < player.CurrentHealth; i++) 
 			{
 				Console.Write(' ');

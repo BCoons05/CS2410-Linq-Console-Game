@@ -11,3 +11,4 @@ C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\ConsolePla
 C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.dll
 C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.pdb
 C:\Users\Brian\source\repos\ConsolePlatformer\obj\Debug\netcoreapp3.1\ConsolePlatformer.genruntimeconfig.cache
+C:\Users\Brian\source\repos\ConsolePlatformer\bin\Debug\netcoreapp3.1\Save.txt

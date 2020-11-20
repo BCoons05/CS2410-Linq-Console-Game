@@ -8,14 +8,14 @@ namespace ConsolePlatformer
     {
 		public int Position { get; private set; }
 		public int Bottom { get; private set; }
-		private string Direction;
+		private Directions Direction;
 		public int Damage { get; private set; }
 		private int Speed;
 		private int frames;
 		private Background background;
 		private ConsoleColor Color = ConsoleColor.Black;
 		public ConsoleColor TextColor { get; set; }
-		public Projectile(int position, int bottom, string direction, int speed, int damage, Background background)
+		public Projectile(int position, int bottom, Directions direction, int speed, int damage, Background background)
 		{
 			Speed = speed;
 			Damage = damage;
@@ -37,16 +37,16 @@ namespace ConsolePlatformer
 				{
 					switch (Direction)
 					{
-						case "Right":
+						case Directions.RIGHT:
 							DrawProjectile(Color, ++Position, Bottom);
 							break;
-						case "Left":
+						case Directions.LEFT:
 							DrawProjectile(Color, --Position, Bottom);
 							break;
-						case "Up":
+						case Directions.UP:
 							DrawProjectile(Color, Position, --Bottom);
 							break;
-						case "Down":
+						case Directions.DOWN:
 							DrawProjectile(Color, Position, ++Bottom);
 							break;
 					}
@@ -59,9 +59,9 @@ namespace ConsolePlatformer
 			Console.SetCursorPosition(position, bottom);
 			Console.BackgroundColor = color;
 			Console.ForegroundColor = TextColor;
-			if (Direction == "Up" || Direction == "Down")
+			if (Direction == Directions.UP || Direction == Directions.DOWN)
 				Console.Write('|');
-			else if (Direction == "Right" || Direction == "Left")
+			else if (Direction == Directions.RIGHT || Direction == Directions.LEFT)
 				Console.Write('-');
 		}
 

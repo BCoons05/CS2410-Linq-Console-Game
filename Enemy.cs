@@ -16,7 +16,7 @@ namespace ConsolePlatformer
 		private int speed;
 		public int Damage { get; private set; }
 		private int frames;
-		private string direction;
+		private Directions direction;
 		private Random rnd = new Random();
 		ConsoleColor Color = ConsoleColor.Green;
 		public Enemy(int speed, Background background, int position, int bottom, int health, int damage, Player player, Game game)
@@ -34,26 +34,26 @@ namespace ConsolePlatformer
 
 		public void MoveRight()
 		{
-			if (direction != "Right")
-				direction = "Right";
+			if (direction != Directions.RIGHT)
+				direction = Directions.RIGHT;
 		}
 
 		public void MoveLeft()
 		{
-			if (direction != "Left")
-				direction = "Left";
+			if (direction != Directions.LEFT)
+				direction = Directions.LEFT;
 		}
 
 		public void MoveDown()
 		{
-			if (direction != "Down")
-				direction = "Down";
+			if (direction != Directions.DOWN)
+				direction = Directions.DOWN;
 		}
 
 		public void MoveUp()
 		{
-			if (direction != "Up")
-				direction = "Up";
+			if (direction != Directions.UP)
+				direction = Directions.UP;
 		}
 
 		public void HitTest(Projectile projectile)
@@ -69,8 +69,9 @@ namespace ConsolePlatformer
 		public void TakeDamage(Projectile projectile)
 		{
 			Health -= projectile.Damage;
+			DrawEnemy(ConsoleColor.DarkGreen, Position, Bottom);
 
-			if(Health <= 0)
+			if (Health <= 0)
 			{
 				DrawEnemy(ConsoleColor.Black, Position, Bottom);
 			}
@@ -94,19 +95,19 @@ namespace ConsolePlatformer
 					DrawEnemy(ConsoleColor.Black, Position, Bottom);
 					switch (direction)
 					{
-						case ("Left"):
+						case (Directions.LEFT):
 							if (Position > background.LeftWall + 2)
 								Position--;
 							break;
-						case ("Right"):
+						case (Directions.RIGHT):
 							if (Position < background.RightWall - 1)
 								Position++;
 							break;
-						case ("Up"):
+						case (Directions.UP):
 							if (Bottom > background.TopWall + 2)
 								Bottom--;
 							break;
-						case ("Down"):
+						case (Directions.DOWN):
 							if (Bottom < background.BottomWall - 1)
 								Bottom++;
 							break;
