@@ -15,16 +15,20 @@ namespace ConsolePlatformer
 		public int Bottom { get; private set; }
 		public int MaxHealth { get; private set; }
 		public int CurrentHealth { get; private set; }
+		public int Cash { get; set; }
+		public List<IWeapon> Inventory { get; private set; }
 		public IWeapon EquipedWeapon { get; private set; }
 		private ConsoleColor Color = ConsoleColor.Red;
-		public Player(Background background, int position, int bottom, int health)
+		public Player(Background background, int position, int bottom, int health, int maxHealth, int cash, List<IWeapon> inventory)
 		{
 			this.background = background;
 			Position = position;
 			Bottom = bottom;
-			MaxHealth = health;
+			MaxHealth = maxHealth;
 			CurrentHealth = health;
+			Cash = cash;
 			Direction = Directions.RIGHT;
+			Inventory = inventory;
 		}
 
 		public void EquipWeapon(IWeapon weapon)
@@ -77,13 +81,8 @@ namespace ConsolePlatformer
 		public void TakeDamage(Enemy enemy)
 		{
 			CurrentHealth -= enemy.Damage;
-			background.DrawStatusBar(this);
+			background.DrawHealthBar(this);
 			enemy.TakeDamage();
-
-			if (CurrentHealth <= 0)
-			{
-				DrawPlayer(ConsoleColor.Black, Position, Bottom);
-			}
 		}
 
 		public void Draw()

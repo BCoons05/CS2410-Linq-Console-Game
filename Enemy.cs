@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+using System.Diagnostics;
 
 namespace ConsolePlatformer
 {
@@ -13,11 +11,13 @@ namespace ConsolePlatformer
 		private Player player;
 		private Game game;
 		public int Health { get; private set; }
+		public int MaxHealth { get; private set; }
 		private int speed;
 		public int Damage { get; private set; }
 		private int frames;
 		private Directions direction;
 		private Random rnd = new Random();
+		public Stopwatch SpawnTimer;
 		ConsoleColor Color = ConsoleColor.Green;
 		public Enemy(int speed, Background background, int position, int bottom, int health, int damage, Player player, Game game)
         {
@@ -28,9 +28,11 @@ namespace ConsolePlatformer
 			Damage = damage;
 			Position = position;
 			Bottom = bottom;
+			MaxHealth = health;
 			Health = health;
 			frames = 0;
-        }
+			SpawnTimer = new Stopwatch();
+		}
 
 		public void MoveRight()
 		{
@@ -61,90 +63,126 @@ namespace ConsolePlatformer
 			int projectileBottom = projectile.Bottom;
 			int projectilePosition = projectile.Position;
 
-			if (projectilePosition == Position || projectilePosition == Position - 1)
-				if(projectileBottom == Bottom - 1 || projectileBottom == Bottom)
+			if (projectilePosition == Position - 1)
+			{
+				if (projectileBottom == Bottom - 1 || projectileBottom == Bottom)
+				{
 					TakeDamage(projectile);
+					projectile.Position = background.RightWall + 2;
+				}	
+			}
+				
 		}
 
 		public void TakeDamage(Projectile projectile)
 		{
 			Health -= projectile.Damage;
-			DrawEnemy(ConsoleColor.DarkGreen, Position, Bottom);
 
 			if (Health <= 0)
 			{
 				DrawEnemy(ConsoleColor.Black, Position, Bottom);
-			}
-				
+				Position = background.RightWall + 2;
+				DrawEnemy(ConsoleColor.Black, Position, Bottom);
+				player.Cash += MaxHealth;
+				background.DrawStatusBar(player);
+			}	
 		}
 
 		public void TakeDamage()
 		{
 			Health = 0;
 			DrawEnemy(ConsoleColor.Black, Position, Bottom);
+			Position = background.RightWall + 2;
+			DrawEnemy(ConsoleColor.Black, Position, Bottom);
 		}
 
 		public void Draw()
 		{
-			//if(Health > 0)
-			//{
-				frames++;
-
-				if (frames % speed == 0)
+			frames++;
+			SpawnTimer.Stop();
+			if (frames % speed == 0 && Position < background.RightWall)
+			{
+				DrawEnemy(ConsoleColor.Black, Position, Bottom);
+				switch (direction)
 				{
-					DrawEnemy(ConsoleColor.Black, Position, Bottom);
-					switch (direction)
-					{
-						case (Directions.LEFT):
-							if (Position > background.LeftWall + 2)
-								Position--;
-							break;
-						case (Directions.RIGHT):
-							if (Position < background.RightWall - 1)
-								Position++;
-							break;
-						case (Directions.UP):
-							if (Bottom > background.TopWall + 2)
-								Bottom--;
-							break;
-						case (Directions.DOWN):
-							if (Bottom < background.BottomWall - 1)
-								Bottom++;
-							break;
-					}
+					case (Directions.LEFT):
+						if (Position > background.LeftWall + 2)
+							Position--;
+						break;
+					case (Directions.RIGHT):
+						if (Position < background.RightWall - 1)
+							Position++;
+						break;
+					case (Directions.UP):
+						if (Bottom > background.TopWall + 2)
+							Bottom--;
+						break;
+					case (Directions.DOWN):
+						if (Bottom < background.BottomWall - 1)
+							Bottom++;
+						break;
+				}
 
-					if (Bottom != player.Bottom)
+				if (Bottom != player.Bottom)
+				{
+					switch (rnd.Next(0, 2))
 					{
-						switch (rnd.Next(0, 2))
-						{
-							case 0:
-								if (player.Position > Position)
-									MoveRight();
-								else
-									MoveLeft();
-								break;
-							case 1:
-								if (player.Bottom > Bottom)
-									MoveDown();
-								else
-									MoveUp();
-								break;
-						}
-					}
-					else
-					{
-						if (player.Position > Position)
-							MoveRight();
-						else
-							MoveLeft();
+						case 0:
+							if (player.Position > Position)
+								MoveRight();
+							else
+								MoveLeft();
+							break;
+						case 1:
+							if (player.Bottom > Bottom)
+								MoveDown();
+							else
+								MoveUp();
+							break;
 					}
 				}
-				DrawEnemy(Color, Position, Bottom);
-			//}
+				else
+				{
+					if (player.Position > Position)
+						MoveRight();
+					else
+						MoveLeft();
+				}
+			}
+			DrawEnemy(Color, Position, Bottom);
+		}
+
+		internal void DrawSpawnMarker()
+		{
+			Console.SetCursorPosition(Position - 1, Bottom);
+			Console.BackgroundColor = Color;
+			Console.ForegroundColor = ConsoleColor.Red;
+			Console.Write("**");
+			SpawnTimer.Start();
 		}
 
 		public void DrawEnemy(ConsoleColor color, int position, int bottom)
 		{
+			Console.SetCursorPosition(position - 1, bottom - 2);
+			Console.BackgroundColor = ConsoleColor.Black;
+			if(bottom > background.TopWall + 2 && position < background.RightWall - 1)
+			{
+				int i;
+				Console.ForegroundColor = Health > 10 ? ConsoleColor.Green : Health > 5 ? ConsoleColor.DarkYellow : ConsoleColor.Red;
+				Console.SetCursorPosition(Position - 1, Bottom - 2);
+				for (i = 0; i < Health; i += 5)
+				{
+					Console.Write(color == ConsoleColor.Black ? ' ' : '-');
+				}
+				if (i < MaxHealth)
+				{
+					while (i < MaxHealth)
+					{
+						Console.Write(' ');
+						i++;
+					}
+				}
+			}
 			Console.SetCursorPosition(position, bottom);
 			Console.BackgroundColor = color;
 			Console.ForegroundColor = ConsoleColor.Red;

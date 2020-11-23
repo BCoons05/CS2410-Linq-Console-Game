@@ -4,9 +4,11 @@ using System.Text;
 
 namespace ConsolePlatformer
 {
+	enum ProjectileType { BULLET, PELLET, ROCKET }
     class Projectile
     {
-		public int Position { get; private set; }
+		public ProjectileType Type;
+		public int Position { get; set; }
 		public int Bottom { get; private set; }
 		private Directions Direction;
 		public int Damage { get; private set; }
@@ -15,8 +17,10 @@ namespace ConsolePlatformer
 		private Background background;
 		private ConsoleColor Color = ConsoleColor.Black;
 		public ConsoleColor TextColor { get; set; }
-		public Projectile(int position, int bottom, Directions direction, int speed, int damage, Background background)
+		private int distance;
+		public Projectile(ProjectileType type, int position, int bottom, Directions direction, int speed, int damage, Background background)
 		{
+			Type = type;
 			Speed = speed;
 			Damage = damage;
 			Position = position;
@@ -25,6 +29,7 @@ namespace ConsolePlatformer
 			frames = 0;
 			this.background = background;
 			TextColor = ConsoleColor.Yellow;
+			distance = type == ProjectileType.PELLET ? 12 : 100;
 		}
 
 		public void Draw()
@@ -32,8 +37,9 @@ namespace ConsolePlatformer
 			frames++;
 			if (frames % Speed == 0)
 			{
+				distance--;
 				ClearProjectile(ConsoleColor.Black, Position, Bottom);
-				if (Position > background.LeftWall + 1 && Position < background.RightWall - 1 && Bottom > background.TopWall + 1 && Bottom < background.BottomWall - 1)
+				if (distance > 0 && Position > background.LeftWall + 1 && Position < background.RightWall - 1 && Bottom > background.TopWall + 1 && Bottom < background.BottomWall - 1)
 				{
 					switch (Direction)
 					{
@@ -51,6 +57,8 @@ namespace ConsolePlatformer
 							break;
 					}
 				}
+				else if (distance <= 0)
+					Position = background.RightWall + 2;
 			}
 		}
 
@@ -60,9 +68,9 @@ namespace ConsolePlatformer
 			Console.BackgroundColor = color;
 			Console.ForegroundColor = TextColor;
 			if (Direction == Directions.UP || Direction == Directions.DOWN)
-				Console.Write('|');
+				Console.Write(Type == ProjectileType.BULLET ? '|' : '"');
 			else if (Direction == Directions.RIGHT || Direction == Directions.LEFT)
-				Console.Write('-');
+				Console.Write(Type == ProjectileType.BULLET ? '-' : ':');
 		}
 
 		public void ClearProjectile(ConsoleColor color, int position, int bottom)

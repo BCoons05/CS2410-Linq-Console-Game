@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ConsolePlatformer
 {
@@ -27,20 +26,23 @@ namespace ConsolePlatformer
             MagazineSize = 15;
             BulletsInMagazine = MagazineSize;
         }
-        public Projectile Fire()
+        public List<Projectile> Fire()
         {
+            List<Projectile> shots = new List<Projectile>();
             if (BulletsInMagazine > 0)
             {
                 BulletsInMagazine--;
-                Projectile projectile = new Projectile(player.Position + 1, player.Bottom - 1, player.Direction, 5, Damage, background);
-                return projectile;
+                Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position + 1, player.Bottom - 1, player.Direction, 5, Damage, background);
+                shots.Add(projectile);
+                return shots;
             }
             else
             {
                 Reload();
                 BulletsInMagazine--;
-                Projectile projectile = new Projectile(player.Position + 1, player.Bottom - 1, player.Direction, 5, Damage, background);
-                return projectile;
+                Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position + 1, player.Bottom - 1, player.Direction, 5, Damage, background);
+                shots.Add(projectile);
+                return shots;
             }
         }
 
@@ -54,6 +56,11 @@ namespace ConsolePlatformer
         public void Equip()
         {
             Equipped = true;
+        }
+
+        public override string ToString()
+        {
+            return $"{Rarity} {Type} Damage: {Damage} Mag size: {MagazineSize}";
         }
     }
 }

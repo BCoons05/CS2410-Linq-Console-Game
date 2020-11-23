@@ -20,27 +20,30 @@ namespace ConsolePlatformer
         {
             Type = type;
             Rarity = rarity;
-            Damage = rarity == Rarities.COMMON ? 5 : rarity == Rarities.RARE ? 10 : 15;
-            FireRate = rarity == Rarities.COMMON ? 15 : rarity == Rarities.RARE ? 10 : 5;
+            Damage = rarity == Rarities.COMMON ? 5 : rarity == Rarities.RARE ? 8 : 10 ;
+            FireRate = rarity == Rarities.COMMON ? 2 : 1;
             this.player = player;
             this.background = background;
-            MagazineSize = 15;
+            MagazineSize = 20;
             BulletsInMagazine = MagazineSize;
         }
-        public Projectile Fire()
+        public List<Projectile> Fire()
         {
+            List<Projectile> shots = new List<Projectile>();
             if (BulletsInMagazine > 0)
             {
                 BulletsInMagazine--;
-                Projectile projectile = new Projectile(player.Position + 1, player.Bottom - 1, player.Direction, 5, Damage, background);
-                return projectile;
+                Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
+                shots.Add(projectile);
+                return shots;
             }
             else
             {
                 Reload();
                 BulletsInMagazine--;
-                Projectile projectile = new Projectile(player.Position + 1, player.Bottom - 1, player.Direction, 5, Damage, background);
-                return projectile;
+                Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
+                shots.Add(projectile);
+                return shots;
             }
         }
 
@@ -54,6 +57,11 @@ namespace ConsolePlatformer
         public void Equip()
         {
             Equipped = true;
+        }
+
+        public override string ToString()
+        {
+            return $"{Rarity} {Type} Damage: {Damage} Mag size: {MagazineSize}";
         }
     }
 }

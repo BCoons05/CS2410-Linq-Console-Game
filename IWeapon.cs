@@ -13,9 +13,11 @@ namespace ConsolePlatformer
         int Damage { get; }
         int FireRate { get; }
         int MagazineSize { get; }
+        int BulletsInMagazine { get; }
         bool Equipped { get; }
-        Projectile Fire();
+        List<Projectile> Fire();
         void Reload();
         void Equip();
+        string ToString();
     }
 }
