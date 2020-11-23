@@ -80,6 +80,12 @@ namespace ConsolePlatformer
                     player.Draw();
                 }
             }
+
+            
+            while (!Console.KeyAvailable)
+            {
+                Thread.Sleep(100);
+            }
             //TODO YOU DIED
             SaveAndQuit();
         }

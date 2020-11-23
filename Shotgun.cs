@@ -34,87 +34,45 @@ namespace ConsolePlatformer
         {
             List<Projectile> shots = new List<Projectile>();
 
-            if (BulletsInMagazine >= 0)
+            //TODO refactor the projectile creation and load
+            BulletsInMagazine--;
+            switch (player.Direction)
             {
-                //TODO refactor the projectile creation and load
-                BulletsInMagazine--;
-                switch (player.Direction)
-                {
-                    case Directions.DOWN:
-                        Projectile projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                        Projectile projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                        Projectile projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                    case Directions.RIGHT:
-                        projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                        projectile2 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom, player.Direction, FireRate, Damage, background);
-                        projectile3 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                    case Directions.LEFT:
-                        projectile = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                        projectile2 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom, player.Direction, FireRate, Damage, background);
-                        projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                    case Directions.UP:
-                        projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom -2, player.Direction, FireRate, Damage, background);
-                        projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                }
+                case Directions.DOWN:
+                    Projectile projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
+                    Projectile projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom + 1, player.Direction, FireRate, Damage, background);
+                    Projectile projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
+                    shots.Add(projectile);
+                    shots.Add(projectile2);
+                    shots.Add(projectile3);
+                    break;
+                case Directions.RIGHT:
+                    projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
+                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom, player.Direction, FireRate, Damage, background);
+                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
+                    shots.Add(projectile);
+                    shots.Add(projectile2);
+                    shots.Add(projectile3);
+                    break;
+                case Directions.LEFT:
+                    projectile = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
+                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom, player.Direction, FireRate, Damage, background);
+                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
+                    shots.Add(projectile);
+                    shots.Add(projectile2);
+                    shots.Add(projectile3);
+                    break;
+                case Directions.UP:
+                    projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
+                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom -2, player.Direction, FireRate, Damage, background);
+                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
+                    shots.Add(projectile);
+                    shots.Add(projectile2);
+                    shots.Add(projectile3);
+                    break;
+            }
                 
-                return shots;
-            }
-            else
-            {
-                switch (player.Direction)
-                {
-                    case Directions.DOWN:
-                        Projectile projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                        Projectile projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                        Projectile projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                    case Directions.RIGHT:
-                        projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                        projectile2 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom, player.Direction, FireRate, Damage, background);
-                        projectile3 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                    case Directions.LEFT:
-                        projectile = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                        projectile2 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom, player.Direction, FireRate, Damage, background);
-                        projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                    case Directions.UP:
-                        projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                        shots.Add(projectile);
-                        shots.Add(projectile2);
-                        shots.Add(projectile3);
-                        break;
-                }
-                return shots;
-            }
+            return shots;
         }
 
         public void Reload()

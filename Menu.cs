@@ -10,6 +10,7 @@ namespace ConsolePlatformer
         private Game game;
         private Player player;
         private List<IWeapon> inventory;
+        private IEnumerable<IWeapon> filteredInventory;
         private Dictionary<int, IWeapon> weaponDict;
         private int LeftBound;
         private int RightBound;
@@ -22,6 +23,7 @@ namespace ConsolePlatformer
             this.game = game;
             this.player = player;
             this.inventory = inventory;
+            filteredInventory = inventory;
             weaponDict = new Dictionary<int, IWeapon>();
             Top = 3;
             LeftBound = 3;
@@ -62,9 +64,9 @@ namespace ConsolePlatformer
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(50, Top + 3);
+            Console.SetCursorPosition(GetCenter("Inventory"), Top + 3);
             Console.Write("Inventory");
-            Console.SetCursorPosition(49, Top + 4);
+            Console.SetCursorPosition(GetCenter("-----------"), Top + 4);
             Console.Write("-----------");
             Console.SetCursorPosition(LeftBound + 1, Top + 6);
             Console.Write($"{' ', -20}M - Machine Guns{' ', -25}C - Common Weapons");
@@ -72,10 +74,10 @@ namespace ConsolePlatformer
             Console.Write($"{' ', -20}S - Shotguns{' ', -29}R - Rare Weapons");
             Console.SetCursorPosition(LeftBound + 1, Top + 16);
             Console.Write($"{' ', -20}B - Rocket Launchers {' ',-20}L - Legendary Weapons");
-            Console.SetCursorPosition(LeftBound + 1, Bottom - 6);
-            Console.Write($"{' ',-31}O - Purchase Random Weapon for $1000");
-            Console.SetCursorPosition(LeftBound + 1, Bottom - 3);
-            Console.Write($"{' ',-40}Enter to Close Menu");
+            Console.SetCursorPosition(GetCenter("O - Purchase Random Weapon for $1000"), Bottom - 6);
+            Console.Write("O - Purchase Random Weapon for $1000");
+            Console.SetCursorPosition(GetCenter("Enter to Close Menu"), Bottom - 3);
+            Console.Write("Enter to Close Menu");
 
             NavigateMenu();
         }
@@ -132,23 +134,24 @@ namespace ConsolePlatformer
 
         private void GetLegendaries()
         {
-            IEnumerable<IWeapon> legendaries =
-                from w in inventory
+            filteredInventory =
+                from w in filteredInventory
                 where w.Rarity == Rarities.LEGENDARY
                 select w;
 
             OpenMenu();
-            UpdateMenuSelections(legendaries, "Legendary");
+            UpdateMenuSelections(filteredInventory, "Legendary");
         }
 
         private void UpdateMenuSelections(IEnumerable<IWeapon> filteredWeapons, string header)
         {
+            string divider = "------------------\n";
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(50, Top + 3);
+            Console.SetCursorPosition(GetCenter(header), Top + 3);
             Console.Write(header);
-            Console.SetCursorPosition(49, Top + 4);
-            Console.Write("-----------\n");
+            Console.SetCursorPosition(GetCenter(divider), Top + 4);
+            Console.Write(divider);
             int currentLine = Top + 6;
             int lineNum = 1;
             foreach (IWeapon weapon in filteredWeapons)
@@ -160,63 +163,69 @@ namespace ConsolePlatformer
                 currentLine++;
                 lineNum++;
             }
-            Console.SetCursorPosition(30, Bottom - 3);
-            Console.Write("Up/Down to Select -- SpaceBar to Equip -- Enter to Go Back");
+            string controls = "Up/Down to Select -- SpaceBar to Equip -- Enter to Go Back";
+            Console.SetCursorPosition(GetCenter(controls), Bottom - 3);
+            Console.Write(controls);
+        }
+
+        private int GetCenter(string myString)
+        {
+            return (RightBound - LeftBound) / 2 - myString.Length / 2;
         }
 
         private void GetLaunchers()
         {
-            IEnumerable<IWeapon> launchers =
-                from w in inventory
+            filteredInventory =
+                from w in filteredInventory
                 where w.Type == WeaponTypes.ROCKETLAUNCHER
                 select w;
 
             OpenMenu();
-            UpdateMenuSelections(launchers, "Rocket Launchers");
+            UpdateMenuSelections(filteredInventory, "Rocket Launchers");
         }
 
         private void GetRares()
         {
-            IEnumerable<IWeapon> rares =
-                from w in inventory
+            filteredInventory =
+                from w in filteredInventory
                 where w.Rarity == Rarities.RARE
                 select w;
 
             OpenMenu();
-            UpdateMenuSelections(rares, "Rare");
+            UpdateMenuSelections(filteredInventory, "Rare");
         }
 
         private void GetShotguns()
         {
-            IEnumerable<IWeapon> shotguns =
-                from w in inventory
+            filteredInventory =
+                from w in filteredInventory
                 where w.Type == WeaponTypes.SHOTGUN
                 select w;
 
             OpenMenu();
-            UpdateMenuSelections(shotguns, "Shotguns");
+            UpdateMenuSelections(filteredInventory, "Shotguns");
         }
 
         private void GetCommons()
         {
-            IEnumerable<IWeapon> commons =
-                from w in inventory
+            filteredInventory =
+                from w in filteredInventory
                 where w.Rarity == Rarities.COMMON
                 select w;
 
             OpenMenu();
-            UpdateMenuSelections(commons, "Common");
+            UpdateMenuSelections(filteredInventory, "Common");
         }
 
         private void GetMachineGuns()
         {
-            IEnumerable<IWeapon> machineGuns =
-                from w in inventory
+            filteredInventory =
+                from w in filteredInventory
                 where w.Type == WeaponTypes.MACHINEGUN
                 select w;
 
             OpenMenu();
-            UpdateMenuSelections(machineGuns, "Machine Guns");
+            UpdateMenuSelections(filteredInventory, "Machine Guns");
         }
     }
 }

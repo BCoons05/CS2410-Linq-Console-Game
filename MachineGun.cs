@@ -30,27 +30,14 @@ namespace ConsolePlatformer
         public List<Projectile> Fire()
         {
             List<Projectile> shots = new List<Projectile>();
-            if (BulletsInMagazine > 0)
-            {
-                BulletsInMagazine--;
-                Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                shots.Add(projectile);
-                return shots;
-            }
-            else
-            {
-                Reload();
-                BulletsInMagazine--;
-                Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                shots.Add(projectile);
-                return shots;
-            }
+            BulletsInMagazine--;
+            Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position, player.Bottom - 1, player.Direction, FireRate, Damage, background);
+            shots.Add(projectile);
+            return shots;
         }
 
         public void Reload()
         {
-            //Display reloading...
-            //wait for reload?
             BulletsInMagazine = MagazineSize;
         }
 
