@@ -15,7 +15,7 @@ namespace ConsolePlatformer
         private List<Projectile> projectiles;
         private Random rnd;
         public static int Level;
-        private int waves = 1;
+        private int waves;
         private Stopwatch clock;
         private Stopwatch reloadTimer;
         private Menu menu;
@@ -27,6 +27,7 @@ namespace ConsolePlatformer
             enemies = new List<Enemy>();
             projectiles = new List<Projectile>();
             Level = loadLevel;
+            waves = 1;
             clock = new Stopwatch();
             reloadTimer = new Stopwatch();
             rnd = new Random();
@@ -82,12 +83,10 @@ namespace ConsolePlatformer
                 }
             }
 
-            
-            while (!Console.KeyAvailable)
-            {
-                Thread.Sleep(100);
-            }
-            //TODO YOU DIED
+            menu = new Menu(player, this);
+            menu.DrawGameResults();
+            Console.SetCursorPosition(0, background.BottomWall - 1);
+            Level = 1;
             SaveAndQuit();
         }
 
