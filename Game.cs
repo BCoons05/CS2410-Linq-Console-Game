@@ -18,6 +18,7 @@ namespace ConsolePlatformer
         private int waves = 1;
         private Stopwatch clock;
         private Stopwatch reloadTimer;
+        private Menu menu;
         public Game(Player player, Background background, int loadLevel)
         {
             this.background = background;
@@ -160,8 +161,7 @@ namespace ConsolePlatformer
                     break;
                 case ConsoleKey.P:
                     clock.Stop();
-                    Menu menu = new Menu(player, player.Inventory, this);
-                    menu.OpenMenu();
+                    menu = new Menu(player, this);
                     break;
                 case ConsoleKey.Q:
                     running = SaveAndQuit();

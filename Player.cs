@@ -27,7 +27,7 @@ namespace ConsolePlatformer
 			MaxHealth = maxHealth;
 			CurrentHealth = health;
 			Cash = cash;
-			Direction = Directions.RIGHT;
+			Direction = Directions.DOWN;
 			Inventory = inventory;
 		}
 

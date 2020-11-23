@@ -9,7 +9,6 @@ namespace ConsolePlatformer
     {
         private Game game;
         private Player player;
-        private List<IWeapon> inventory;
         private IEnumerable<IWeapon> filteredInventory;
         private Dictionary<int, IWeapon> weaponDict;
         private int LeftBound;
@@ -17,13 +16,13 @@ namespace ConsolePlatformer
         private int Top;
         private int Bottom;
         private bool menuOpen;
+        private string header = "";
 
-        public Menu(Player player, List<IWeapon> inventory, Game game)
+        public Menu(Player player, Game game)
         {
             this.game = game;
             this.player = player;
-            this.inventory = inventory;
-            filteredInventory = inventory;
+            filteredInventory = player.Inventory;
             weaponDict = new Dictionary<int, IWeapon>();
             Top = 3;
             LeftBound = 3;
@@ -31,7 +30,10 @@ namespace ConsolePlatformer
             RightBound = 111;
             menuOpen = true;
             OpenMenu();
-            PrintOptions();
+            if (player.CurrentHealth > 0)
+                PrintOptions();
+            else
+                DrawGameResults();
         }
 
         public void OpenMenu()
@@ -70,16 +72,23 @@ namespace ConsolePlatformer
             Console.Write("-----------");
             Console.SetCursorPosition(LeftBound + 1, Top + 6);
             Console.Write($"{' ', -20}M - Machine Guns{' ', -25}C - Common Weapons");
-            Console.SetCursorPosition(LeftBound + 1, Top + 11);
+            Console.SetCursorPosition(LeftBound + 1, Top + 9);
             Console.Write($"{' ', -20}S - Shotguns{' ', -29}R - Rare Weapons");
-            Console.SetCursorPosition(LeftBound + 1, Top + 16);
+            Console.SetCursorPosition(LeftBound + 1, Top + 12);
             Console.Write($"{' ', -20}B - Rocket Launchers {' ',-20}L - Legendary Weapons");
-            Console.SetCursorPosition(GetCenter("O - Purchase Random Weapon for $1000"), Bottom - 6);
+            Console.SetCursorPosition(GetCenter("O - Purchase Random Weapon for $1000"), Top + 15);
             Console.Write("O - Purchase Random Weapon for $1000");
+            Console.SetCursorPosition(GetCenter("H - Purchase +10 Max Health for $1000"), Top + 18);
+            Console.Write("H - Purchase +10 Max Health for $1000");
             Console.SetCursorPosition(GetCenter("Enter to Close Menu"), Bottom - 3);
             Console.Write("Enter to Close Menu");
 
             NavigateMenu();
+        }
+
+        private void DrawGameResults()
+        {
+
         }
 
         private void NavigateMenu()
@@ -139,13 +148,14 @@ namespace ConsolePlatformer
                 where w.Rarity == Rarities.LEGENDARY
                 select w;
 
+            header = header.Length > 0 ? $"Legendary {header}" : "Legendary";
             OpenMenu();
-            UpdateMenuSelections(filteredInventory, "Legendary");
+            UpdateMenuSelections(filteredInventory);
         }
 
-        private void UpdateMenuSelections(IEnumerable<IWeapon> filteredWeapons, string header)
+        private void UpdateMenuSelections(IEnumerable<IWeapon> filteredWeapons)
         {
-            string divider = "------------------\n";
+            string divider = "--------------------------\n";
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.SetCursorPosition(GetCenter(header), Top + 3);
@@ -180,8 +190,9 @@ namespace ConsolePlatformer
                 where w.Type == WeaponTypes.ROCKETLAUNCHER
                 select w;
 
+            header = header.Length > 0 ? $"{header} Rocket Launchers" : "Rocket Launchers";
             OpenMenu();
-            UpdateMenuSelections(filteredInventory, "Rocket Launchers");
+            UpdateMenuSelections(filteredInventory);
         }
 
         private void GetRares()
@@ -191,8 +202,9 @@ namespace ConsolePlatformer
                 where w.Rarity == Rarities.RARE
                 select w;
 
+            header = header.Length > 0 ? $"Rare {header}" : "Rare";
             OpenMenu();
-            UpdateMenuSelections(filteredInventory, "Rare");
+            UpdateMenuSelections(filteredInventory);
         }
 
         private void GetShotguns()
@@ -202,8 +214,9 @@ namespace ConsolePlatformer
                 where w.Type == WeaponTypes.SHOTGUN
                 select w;
 
+            header = header.Length > 0 ? $"{header} Shotguns" : "Shotguns";
             OpenMenu();
-            UpdateMenuSelections(filteredInventory, "Shotguns");
+            UpdateMenuSelections(filteredInventory);
         }
 
         private void GetCommons()
@@ -213,8 +226,9 @@ namespace ConsolePlatformer
                 where w.Rarity == Rarities.COMMON
                 select w;
 
+            header = header.Length > 0 ? $"Common {header}" : "Common";
             OpenMenu();
-            UpdateMenuSelections(filteredInventory, "Common");
+            UpdateMenuSelections(filteredInventory);
         }
 
         private void GetMachineGuns()
@@ -224,8 +238,9 @@ namespace ConsolePlatformer
                 where w.Type == WeaponTypes.MACHINEGUN
                 select w;
 
+            header = header.Length > 0 ? $"{header} Machine Guns" : "Machine Guns";
             OpenMenu();
-            UpdateMenuSelections(filteredInventory, "Machine Guns");
+            UpdateMenuSelections(filteredInventory);
         }
     }
 }

@@ -63,7 +63,7 @@ namespace ConsolePlatformer
                 Console.WriteLine(ex.StackTrace);
             }
 
-            Player player = new Player(background, background.LeftWall + 3, background.TopWall + 10, Health, MaxHealth, Cash, inventory);
+            Player player = new Player(background, background.LeftWall + 50, background.TopWall + 11, Health, MaxHealth, Cash, inventory);
 
             //Create inventory from dictionary
             foreach(string[] pair in inventoryList)
