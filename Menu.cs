@@ -34,11 +34,6 @@ namespace ConsolePlatformer
             header = "";
             itemNumber = 0;
             onInventoryScreen = false;
-            OpenMenu();
-            if (player.CurrentHealth > 0)
-                PrintOptions();
-            else
-                DrawGameResults();
         }
 
         public void OpenMenu()
@@ -67,7 +62,7 @@ namespace ConsolePlatformer
             }
         }
 
-        private void PrintOptions()
+        public void PrintOptions()
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;

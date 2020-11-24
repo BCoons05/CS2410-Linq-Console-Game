@@ -31,6 +31,7 @@ namespace ConsolePlatformer
             clock = new Stopwatch();
             reloadTimer = new Stopwatch();
             rnd = new Random();
+            menu = new Menu(player, this);
         }
 
         public void Go()
@@ -83,7 +84,7 @@ namespace ConsolePlatformer
                 }
             }
 
-            menu = new Menu(player, this);
+            menu.OpenMenu();
             menu.DrawGameResults();
             Console.SetCursorPosition(0, background.BottomWall - 1);
             if(player.CurrentHealth <= 0)
@@ -127,7 +128,7 @@ namespace ConsolePlatformer
 
         private void CheckLevelUp()
         {
-            if (waves == 10)
+            if (waves > 5)
             {
                 Level++;
                 background.DrawStatusBar(player);
@@ -164,10 +165,12 @@ namespace ConsolePlatformer
                     break;
                 case ConsoleKey.P:
                     clock.Stop();
-                    menu = new Menu(player, this);
+                    menu.OpenMenu();
+                    menu.PrintOptions();
                     break;
                 case ConsoleKey.Q:
-                    running = SaveAndQuit();
+                    running = false;
+                    SaveAndQuit();
                     break;
             }
 
@@ -200,9 +203,8 @@ namespace ConsolePlatformer
             player.Draw();
         }
 
-        private bool SaveAndQuit()
+        private void SaveAndQuit()
         {
-            clock.Stop();
             clock.Reset();
             string file = "Save.txt";
             try
@@ -225,8 +227,6 @@ namespace ConsolePlatformer
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.StackTrace);
             }
-
-            return false;
         }
     }
 }
