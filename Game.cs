@@ -86,7 +86,11 @@ namespace ConsolePlatformer
             menu = new Menu(player, this);
             menu.DrawGameResults();
             Console.SetCursorPosition(0, background.BottomWall - 1);
-            Level = 1;
+            if(player.CurrentHealth <= 0)
+            {
+                player.FullHeal();
+                Level = 1;
+            }
             SaveAndQuit();
         }
 

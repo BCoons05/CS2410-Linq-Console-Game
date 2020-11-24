@@ -32,15 +32,15 @@ namespace ConsolePlatformer
                             splitLine = line.Split(':');
                             GameLevel = int.Parse(splitLine[1]);              
                         }
-                        else if (line.Contains("HEALTH"))
-                        {
-                            splitLine = line.Split(':');
-                            Health = int.Parse(splitLine[1]);
-                        }
                         else if (line.Contains("MAXHEALTH"))
                         {
                             splitLine = line.Split(':');
                             MaxHealth = int.Parse(splitLine[1]);
+                        }
+                        else if (line.Contains("HEALTH"))
+                        {
+                            splitLine = line.Split(':');
+                            Health = int.Parse(splitLine[1]);
                         }
                         else if (line.Contains('$'))
                         {

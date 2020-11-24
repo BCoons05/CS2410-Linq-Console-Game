@@ -85,6 +85,23 @@ namespace ConsolePlatformer
 			enemy.TakeDamage();
 		}
 
+		//TODO Display confirmation message and update cash in background
+		public void UpgradeHealth()
+		{
+			if(Cash >= 1000)
+			{
+				MaxHealth += 10;
+				CurrentHealth += 10;
+				Cash -= 1000;
+				background.DrawStatusBar(this);
+			}
+		}
+
+		public void FullHeal()
+		{
+			CurrentHealth = MaxHealth;
+		}
+
 		public void Draw()
 		{
 			DrawPlayer(ConsoleColor.Black, Position, Bottom);

@@ -141,58 +141,71 @@ namespace ConsolePlatformer
                             GetLegendaries();
                             onInventoryScreen = true;
                             break;
+                        case ConsoleKey.H:
+                            if (!onInventoryScreen)
+                                player.UpgradeHealth();
+                            break;
                         case ConsoleKey.UpArrow:
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            Console.ForegroundColor = ConsoleColor.White;
-                            if (itemNumber > 0 && filteredInventory.Count() > 0)
+                            if (onInventoryScreen)
                             {
-                                Console.SetCursorPosition(33, currentLine + itemNumber);
-                                Console.Write(filteredInventory[itemNumber]);
-                                itemNumber--;
-                                Console.SetCursorPosition(33, currentLine + itemNumber);
-                                Console.BackgroundColor = ConsoleColor.White;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write(filteredInventory[itemNumber]);
-                            }
-                            else if (filteredInventory.Count() > 0)
-                            {
-                                Console.SetCursorPosition(33, currentLine + itemNumber);
-                                Console.Write(filteredInventory[itemNumber]);
-                                itemNumber = filteredInventory.Count() - 1;
-                                Console.SetCursorPosition(33, currentLine + itemNumber);
-                                Console.BackgroundColor = ConsoleColor.White;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write(filteredInventory[itemNumber]);
+                                Console.BackgroundColor = ConsoleColor.Black;
+                                Console.ForegroundColor = ConsoleColor.White;
+                                if (itemNumber > 0 && filteredInventory.Count() > 0)
+                                {
+                                    Console.SetCursorPosition(33, currentLine + itemNumber);
+                                    Console.Write(filteredInventory[itemNumber]);
+                                    itemNumber--;
+                                    Console.SetCursorPosition(33, currentLine + itemNumber);
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    Console.Write(filteredInventory[itemNumber]);
+                                }
+                                else if (filteredInventory.Count() > 0)
+                                {
+                                    Console.SetCursorPosition(33, currentLine + itemNumber);
+                                    Console.Write(filteredInventory[itemNumber]);
+                                    itemNumber = filteredInventory.Count() - 1;
+                                    Console.SetCursorPosition(33, currentLine + itemNumber);
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    Console.Write(filteredInventory[itemNumber]);
+                                }
                             }
                             break;
                         case ConsoleKey.DownArrow:
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            Console.ForegroundColor = ConsoleColor.White;
-                            if (itemNumber < filteredInventory.Count() - 1 && filteredInventory.Count() > 0)
+                            if (onInventoryScreen)
                             {
-                                Console.SetCursorPosition(33, currentLine + itemNumber);
-                                Console.Write(filteredInventory[itemNumber]);
-                                itemNumber++;
-                                Console.SetCursorPosition(33, currentLine + itemNumber);
-                                Console.BackgroundColor = ConsoleColor.White;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write(filteredInventory[itemNumber]);
-                            }
-                            else if (filteredInventory.Count() > 0)
-                            {
-                                Console.SetCursorPosition(33, currentLine + itemNumber);
-                                Console.Write(filteredInventory[itemNumber]);
-                                itemNumber = 0;
-                                Console.SetCursorPosition(33, currentLine);
-                                Console.BackgroundColor = ConsoleColor.White;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write(filteredInventory[itemNumber]);
+                                Console.BackgroundColor = ConsoleColor.Black;
+                                Console.ForegroundColor = ConsoleColor.White;
+                                if (itemNumber < filteredInventory.Count() - 1 && filteredInventory.Count() > 0)
+                                {
+                                    Console.SetCursorPosition(33, currentLine + itemNumber);
+                                    Console.Write(filteredInventory[itemNumber]);
+                                    itemNumber++;
+                                    Console.SetCursorPosition(33, currentLine + itemNumber);
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    Console.Write(filteredInventory[itemNumber]);
+                                }
+                                else if (filteredInventory.Count() > 0)
+                                {
+                                    Console.SetCursorPosition(33, currentLine + itemNumber);
+                                    Console.Write(filteredInventory[itemNumber]);
+                                    itemNumber = 0;
+                                    Console.SetCursorPosition(33, currentLine);
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    Console.Write(filteredInventory[itemNumber]);
+                                }
                             }
                             break;
                         case ConsoleKey.Spacebar:
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            filteredInventory[itemNumber].Equip();
-                            player.EquipWeapon(filteredInventory[itemNumber]);
+                            if (onInventoryScreen)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Black;
+                                filteredInventory[itemNumber].Equip();
+                                player.EquipWeapon(filteredInventory[itemNumber]);
+                            }
                             break;
                         case ConsoleKey.Enter:
                             menuOpen = false;
