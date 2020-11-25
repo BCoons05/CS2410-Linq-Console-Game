@@ -19,6 +19,7 @@ namespace ConsolePlatformer
         private Stopwatch clock;
         private Stopwatch reloadTimer;
         private Menu menu;
+        private bool promptOpen;
         public Game(Player player, Background background, int loadLevel)
         {
             Background = background;
@@ -32,6 +33,7 @@ namespace ConsolePlatformer
             reloadTimer = new Stopwatch();
             rnd = new Random();
             menu = new Menu(player, this);
+            promptOpen = true;
         }
 
         public void Go()
@@ -43,6 +45,11 @@ namespace ConsolePlatformer
             {
                 Thread.Sleep(100);
             }
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(menu.GetCenter("                      ", Background.LeftWall, Background.RightWall), menu.GetCenter(" ", Background.TopWall, Background.BottomWall));
+            Console.Write("                      ");
 
             clock.Start();
 
@@ -58,6 +65,7 @@ namespace ConsolePlatformer
                     if (clock.ElapsedMilliseconds >= 5000)
                     {
                         SpawnEnemyWave();
+
                     }
 
                     DrawProjectiles();
@@ -204,6 +212,8 @@ namespace ConsolePlatformer
             Console.CursorVisible = false;
             Background.DrawAll(ConsoleColor.DarkBlue, player);
             player.Draw();
+            Console.SetCursorPosition(menu.GetCenter("Press Any Key to Start", Background.LeftWall, Background.RightWall), menu.GetCenter(" ", Background.TopWall, Background.BottomWall));
+            Console.Write("Press Any Key to Start");
         }
 
         private void SaveAndQuit()

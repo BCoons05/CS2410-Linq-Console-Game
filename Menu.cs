@@ -70,9 +70,9 @@ namespace ConsolePlatformer
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(GetCenter("Inventory"), Top + 3);
+            Console.SetCursorPosition(GetCenter("Inventory", LeftBound, RightBound), Top + 3);
             Console.Write("Inventory");
-            Console.SetCursorPosition(GetCenter("-----------"), Top + 4);
+            Console.SetCursorPosition(GetCenter("-----------", LeftBound, RightBound), Top + 4);
             Console.Write("-----------");
             Console.SetCursorPosition(LeftBound + 1, Top + 6);
             Console.Write($"{' ', -20}M - Machine Guns{' ', -25}C - Common Weapons");
@@ -80,11 +80,11 @@ namespace ConsolePlatformer
             Console.Write($"{' ', -20}S - Shotguns{' ', -29}R - Rare Weapons");
             Console.SetCursorPosition(LeftBound + 1, Top + 12);
             Console.Write($"{' ', -20}B - Rocket Launchers {' ',-20}L - Legendary Weapons");
-            Console.SetCursorPosition(GetCenter("O - Purchase Random Weapon for $1000"), Top + 15);
+            Console.SetCursorPosition(GetCenter("O - Purchase Random Weapon for $1000", LeftBound, RightBound), Top + 15);
             Console.Write("W - Purchase Random Weapon for $1000");
-            Console.SetCursorPosition(GetCenter("H - Purchase +10 Max Health for $1000"), Top + 18);
+            Console.SetCursorPosition(GetCenter("H - Purchase +10 Max Health for $1000", LeftBound, RightBound), Top + 18);
             Console.Write("H - Purchase +10 Max Health for $1000");
-            Console.SetCursorPosition(GetCenter("Enter to Close Menu"), Bottom - 3);
+            Console.SetCursorPosition(GetCenter("Enter to Close Menu", LeftBound, RightBound), Bottom - 3);
             Console.Write("Enter to Close Menu");
 
             onMainMenu = true;
@@ -95,15 +95,15 @@ namespace ConsolePlatformer
         {
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(GetCenter("YOU DIED!"), Top + 3);
+            Console.SetCursorPosition(GetCenter("YOU DIED!", LeftBound, RightBound), Top + 3);
             Console.Write("YOU DIED!");
-            Console.SetCursorPosition(GetCenter("-----------"), Top + 4);
+            Console.SetCursorPosition(GetCenter("-----------", LeftBound, RightBound), Top + 4);
             Console.Write("-----------");
-            Console.SetCursorPosition(GetCenter($"You Have {player.Cash} Cash"), Top + 6);
+            Console.SetCursorPosition(GetCenter($"You Have {player.Cash} Cash", LeftBound, RightBound), Top + 6);
             Console.Write($"You Have {player.Cash} Cash");
-            Console.SetCursorPosition(GetCenter($"You Reached Level {Game.Level}"), Top + 9);
+            Console.SetCursorPosition(GetCenter($"You Reached Level {Game.Level}", LeftBound, RightBound), Top + 9);
             Console.Write($"You Reached Level {Game.Level}");
-            Console.SetCursorPosition(GetCenter("Press Any Button To Exit"), Bottom - 3);
+            Console.SetCursorPosition(GetCenter("Press Any Button To Exit", LeftBound, RightBound), Bottom - 3);
             Console.Write("Press Any Button To Exit");
         }
 
@@ -355,9 +355,9 @@ namespace ConsolePlatformer
             string divider = "--------------------------\n";
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(GetCenter(header), Top + 3);
+            Console.SetCursorPosition(GetCenter(header, LeftBound, RightBound), Top + 3);
             Console.Write(header);
-            Console.SetCursorPosition(GetCenter(divider), Top + 4);
+            Console.SetCursorPosition(GetCenter(divider, LeftBound, RightBound), Top + 4);
             Console.Write(divider);
             int currentLine = Top + 6;
             int lineNum = 1;
@@ -370,13 +370,13 @@ namespace ConsolePlatformer
                 lineNum++;
             }
             string controls = "Up/Down to Select -- SpaceBar to Equip -- Enter to Exit";
-            Console.SetCursorPosition(GetCenter(controls), Bottom - 3);
+            Console.SetCursorPosition(GetCenter(controls, LeftBound, RightBound), Bottom - 3);
             Console.Write(controls);
         }
 
-        private int GetCenter(string myString)
+        public int GetCenter(string myString, int boundOne, int boundTwo)
         {
-            return (RightBound - LeftBound) / 2 - myString.Length / 2;
+            return (boundTwo - boundOne) / 2 - myString.Length / 2;
         }
 
         private void GetLaunchers()

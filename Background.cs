@@ -42,10 +42,13 @@ namespace ConsolePlatformer
 
 		public void DrawStatusBar(Player player)
 		{
+			int maxStringLength = 25;
+			string weaponString = $"{player.EquipedWeapon.Rarity} {player.EquipedWeapon.Type}";
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.SetCursorPosition(LeftWall + 2, TopWall - 4);
-			Console.Write($"CASH: {player.Cash, -35}ROUND {Game.Level, -25} {player.EquipedWeapon.Rarity} {player.EquipedWeapon.Type}");
+			Console.Write($"CASH: {player.Cash, -35}ROUND {Game.Level, -25} {weaponString}");
+			for (int i = weaponString.Length; i <= maxStringLength; i++) Console.Write(' ');
 		}
 
 		public void DrawAmmo(Player player)
