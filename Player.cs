@@ -85,7 +85,6 @@ namespace ConsolePlatformer
 			enemy.TakeDamage();
 		}
 
-		//TODO Display confirmation message and update cash in background
 		public void UpgradeHealth()
 		{
 			MaxHealth += 10;
@@ -116,7 +115,7 @@ namespace ConsolePlatformer
 							Position++;
 						break;
 					case (Directions.UP):
-						if (Bottom > background.TopWall + 3)
+						if (Bottom > background.TopWall + 2)
 							Bottom--;
 						break;
 					case (Directions.DOWN):

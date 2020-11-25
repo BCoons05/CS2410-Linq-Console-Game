@@ -63,7 +63,7 @@ namespace ConsolePlatformer
 			int projectileBottom = projectile.Bottom;
 			int projectilePosition = projectile.Position;
 
-			if (projectilePosition == Position - 1)
+			if (projectilePosition == Position)
 			{
 				if (projectileBottom == Bottom - 1 || projectileBottom == Bottom)
 				{

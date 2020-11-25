@@ -33,7 +33,14 @@ namespace ConsolePlatformer
         {
             List<Projectile> shots = new List<Projectile>();
             BulletsInMagazine--;
-            Projectile projectile = new Projectile(ProjectileType.BULLET, player.Position, player.Bottom - 1, player.Direction, FireRate, Damage, background);
+            int position = player.Position;
+
+            if (player.Position == background.LeftWall + 1)
+                position = player.Position + 1;
+            else if (player.Position == background.RightWall - 1)
+                position = player.Position - 1;
+
+            Projectile projectile = new Projectile(ProjectileType.BULLET, position, player.Bottom - 1, player.Direction, FireRate, Damage, background);
             shots.Add(projectile);
             return shots;
         }

@@ -53,7 +53,7 @@ namespace ConsolePlatformer
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.SetCursorPosition(LeftWall + (player.MaxHealth), TopWall - 2);
-			Console.Write($"{(player.EquipedWeapon.BulletsInMagazine > 0 ? $"{player.EquipedWeapon.BulletsInMagazine, 25}" : $"{"Reloading...", -25}")} / {player.EquipedWeapon.MagazineSize}");
+			Console.Write($"{(player.EquipedWeapon.BulletsInMagazine > 0 ? $"{player.EquipedWeapon.BulletsInMagazine, 25}" : $"{"Reloading...", 25}")} / {player.EquipedWeapon.MagazineSize}");
 		}
 		public void DrawBackground(ConsoleColor color)
 		{

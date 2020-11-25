@@ -113,13 +113,16 @@ namespace ConsolePlatformer
 
         private void SpawnEnemyWave()
         {
+            int enemiesToSpawn = Level % 5 != 0 ? Level % 5 : Level;
             waves++;
-            for (int i = 0; i < Level; i++)
+            for (int i = 0; i < enemiesToSpawn; i++)
             {
                 int position = rnd.Next(Background.LeftWall + 2, Background.RightWall - 1);
                 int bottom = rnd.Next(Background.TopWall + 2, Background.BottomWall - 1);
                 int speed = rnd.Next(2, 6);
-                Enemy enemy = new Enemy(speed, Background, position, bottom, 15, 10, player, this);
+                int health = Level > 5 ? 15 * (Level / 5) + 1 : 15;
+                int damage = Level > 5 ? 10 * (Level / 5) + 1 : 10;
+                Enemy enemy = new Enemy(speed, Background, position, bottom, health, damage, player, this);
                 enemies.Add(enemy);
                 enemy.DrawSpawnMarker();
             }
