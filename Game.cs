@@ -6,6 +6,9 @@ using System.Threading;
 
 namespace ConsolePlatformer
 {
+    /// <summary>
+    /// Class for a new game. Sets up game, then runs the game loop until terminated.
+    /// </summary>
     class Game
     {
         private Player player;
@@ -19,7 +22,6 @@ namespace ConsolePlatformer
         private Stopwatch clock;
         private Stopwatch reloadTimer;
         private Menu menu;
-        private bool promptOpen;
         public Game(Player player, Background background, int loadLevel)
         {
             Background = background;
@@ -33,9 +35,12 @@ namespace ConsolePlatformer
             reloadTimer = new Stopwatch();
             rnd = new Random();
             menu = new Menu(player, this);
-            promptOpen = true;
         }
 
+        /// <summary>
+        /// Contains the main game loop. First it will setup the game, then when a key is pressed
+        /// the game loop and timer will start. Terminates on quit or player health <= 0.
+        /// </summary>
         public void Go()
         {
 
@@ -46,16 +51,13 @@ namespace ConsolePlatformer
                 Thread.Sleep(100);
             }
 
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(menu.GetCenter("                      ", Background.LeftWall, Background.RightWall), menu.GetCenter(" ", Background.TopWall, Background.BottomWall));
-            Console.Write("                      ");
+            ClearPrompt();
 
             clock.Start();
 
             while (running)
             {
-                if(clock.ElapsedMilliseconds % 50 == 0)
+                if (clock.ElapsedMilliseconds % 50 == 0)
                 {
                     if (player.CurrentHealth <= 0)
                         running = false;
@@ -95,7 +97,7 @@ namespace ConsolePlatformer
             menu.OpenMenu();
             menu.DrawGameResults();
             Console.SetCursorPosition(0, Background.BottomWall - 1);
-            if(player.CurrentHealth <= 0)
+            if (player.CurrentHealth <= 0)
             {
                 player.FullHeal();
                 Level = 1;
@@ -103,6 +105,21 @@ namespace ConsolePlatformer
             SaveAndQuit();
         }
 
+        /// <summary>
+        /// Clears prompt that says to press any button to start and replaces with empty spaces
+        /// </summary>
+        private void ClearPrompt()
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(menu.GetCenter("                      ", Background.LeftWall, Background.RightWall), menu.GetCenter(" ", Background.TopWall, Background.BottomWall));
+            Console.Write("                      ");
+        }
+
+        /// <summary>
+        /// Loops through projectiles and checks if they hit an enemy
+        /// </summary>
+        /// <param name="en"></param>
         private void CheckProjectileHits(Enemy en)
         {
             foreach (Projectile pro in projectiles)
@@ -111,6 +128,9 @@ namespace ConsolePlatformer
             }
         }
 
+        /// <summary>
+        /// Loops through projectiles and draws each one
+        /// </summary>
         private void DrawProjectiles()
         {
             foreach (Projectile pro in projectiles)
@@ -119,6 +139,10 @@ namespace ConsolePlatformer
             }
         }
 
+        /// <summary>
+        /// Spawns enemy wave based on level. Will spawn 1 enemy per level up to 5.
+        /// Then starts back at 1 enemy but with higher speed and damage.
+        /// </summary>
         private void SpawnEnemyWave()
         {
             int enemiesToSpawn = Level % 5 != 0 ? Level % 5 : Level;
@@ -137,6 +161,9 @@ namespace ConsolePlatformer
             clock.Restart();
         }
 
+        /// <summary>
+        /// Checks how many enemy waves have spawned and ups the level after 5 waves
+        /// </summary>
         private void CheckLevelUp()
         {
             if (waves > 5)
@@ -147,6 +174,11 @@ namespace ConsolePlatformer
             }
         }
 
+        /// <summary>
+        /// When a key is pressed during the game loop, this will check which key was pressed 
+        /// and start the appropriate action.
+        /// </summary>
+        /// <returns>bool that tells game whether it should still be running</returns>
         private bool CheckKeyPress()
         {
             Console.BackgroundColor = ConsoleColor.Black;
@@ -188,6 +220,10 @@ namespace ConsolePlatformer
             return running;
         }
 
+        /// <summary>
+        /// Starts a reload timer when bulletsinmagazine is zero. 
+        /// When the timer reaches the equipped weapon reload time, it will reload the weapon.
+        /// </summary>
         private void ReloadWeapon()
         {
             if (reloadTimer.ElapsedMilliseconds >= player.EquipedWeapon.ReloadSpeed)
@@ -203,9 +239,7 @@ namespace ConsolePlatformer
         }
 
         /// <summary>
-        /// Write 'Press Enter to Start ... ' as title on native background
-        /// Draw the board
-        /// Position the horses on the track
+        /// Draws the background, player, and start game prompt
         /// </summary>
         private void Setup()
         {
@@ -216,6 +250,9 @@ namespace ConsolePlatformer
             Console.Write("Press Any Key to Start");
         }
 
+        /// <summary>
+        /// When game is quit, this will save the player data to save.txt file
+        /// </summary>
         private void SaveAndQuit()
         {
             clock.Reset();

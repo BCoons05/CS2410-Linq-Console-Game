@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace ConsolePlatformer
 {
+	/// <summary>
+	/// Class for an enemy object. 
+	/// </summary>
     class Enemy
     {
 		public int Position { get; private set; }
@@ -34,30 +37,51 @@ namespace ConsolePlatformer
 			SpawnTimer = new Stopwatch();
 		}
 
+		/// <summary>
+		/// sets enemy direction to Directions.RIGHT if direction is not right.
+		/// This can be used to change how the enemy object is rendered on screen. 
+		/// </summary>
 		public void MoveRight()
 		{
 			if (direction != Directions.RIGHT)
 				direction = Directions.RIGHT;
 		}
 
+		/// <summary>
+		/// sets enemy direction to Directions.LEFT if direction is not left.
+		/// This can be used to change how the enemy object is rendered on screen. 
+		/// </summary>
 		public void MoveLeft()
 		{
 			if (direction != Directions.LEFT)
 				direction = Directions.LEFT;
 		}
 
+		/// <summary>
+		/// sets enemy direction to Directions.DOWN if direction is not down.
+		/// This can be used to change how the enemy object is rendered on screen. 
+		/// </summary>
 		public void MoveDown()
 		{
 			if (direction != Directions.DOWN)
 				direction = Directions.DOWN;
 		}
 
+		/// <summary>
+		/// sets enemy direction to Directions.UP if direction is not up.
+		/// This can be used to change how the enemy object is rendered on screen. 
+		/// </summary>
 		public void MoveUp()
 		{
 			if (direction != Directions.UP)
 				direction = Directions.UP;
 		}
 
+		/// <summary>
+		/// Checks to see if passed projectile is in the same space on screen as the enemy object.
+		/// If the positions are the same, the enemy will TakeDamage from the passed projectile
+		/// </summary>
+		/// <param name="projectile"></param>
 		public void HitTest(Projectile projectile)
 		{
 			int projectileBottom = projectile.Bottom;
@@ -74,6 +98,12 @@ namespace ConsolePlatformer
 				
 		}
 
+		/// <summary>
+		/// If enemy object is Hit by Projectile, this will damage the enemy.
+		/// If the enemy health is <= 0, enemy will be cleared and moved outside the walls of the game.
+		/// Enemies outside the walls will not be drawn or checked for hits
+		/// </summary>
+		/// <param name="projectile">Projectile</param>
 		public void TakeDamage(Projectile projectile)
 		{
 			Health -= projectile.Damage;
@@ -88,6 +118,10 @@ namespace ConsolePlatformer
 			}	
 		}
 
+		/// <summary>
+		/// If enemy is in the same position as the player, the enemy health is 0 and it is moved outside the walls.
+		/// Enemies outside the walls will not be drawn or checked for hits
+		/// </summary>
 		public void TakeDamage()
 		{
 			Health = 0;
@@ -96,6 +130,10 @@ namespace ConsolePlatformer
 			DrawEnemy(ConsoleColor.Black, Position, Bottom);
 		}
 
+		/// <summary>
+		/// Draws the enemy in the next screen position based on their current direction
+		/// and the position in relation to the walls. Enemy cannot move to a spot that is a wall.
+		/// </summary>
 		public void Draw()
 		{
 			frames++;
@@ -152,6 +190,10 @@ namespace ConsolePlatformer
 			DrawEnemy(Color, Position, Bottom);
 		}
 
+		/// <summary>
+		/// Draws the top half of the enemy model. Used to notify player of an incoming enemy. 
+		/// Cannot take or deal damage at this step.
+		/// </summary>
 		internal void DrawSpawnMarker()
 		{
 			Console.SetCursorPosition(Position - 1, Bottom);
@@ -161,6 +203,12 @@ namespace ConsolePlatformer
 			SpawnTimer.Start();
 		}
 
+		/// <summary>
+		/// Draws an enemy object on the screen using the passed color, x position, and y bottom.
+		/// </summary>
+		/// <param name="color">ConsoleColor</param>
+		/// <param name="position">int x position</param>
+		/// <param name="bottom">int y position</param>
 		public void DrawEnemy(ConsoleColor color, int position, int bottom)
 		{
 			Console.SetCursorPosition(position - 1, bottom - 2);

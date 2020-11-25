@@ -4,6 +4,10 @@ using System.Text;
 
 namespace ConsolePlatformer
 {
+    /// <summary>
+    /// Class for a machine gun IWeapon. Holds the bullets in magazine, mag size, damage, reload speed,
+    /// type and rarity
+    /// </summary>
     class MachineGun : IWeapon
     {
         public WeaponTypes Type { get; }
@@ -29,6 +33,11 @@ namespace ConsolePlatformer
             this.background = background;
             BulletsInMagazine = MagazineSize;
         }
+
+        /// <summary>
+        /// Creates a projectile after space is pressed. The projectile is saved to a list and returned to be drawn
+        /// </summary>
+        /// <returns>List<Projectile> that holds all projectiles to be fired</returns>
         public List<Projectile> Fire()
         {
             List<Projectile> shots = new List<Projectile>();
@@ -45,11 +54,17 @@ namespace ConsolePlatformer
             return shots;
         }
 
+        /// <summary>
+        /// Sets bulletsinmagazine to be equal to magazine size
+        /// </summary>
         public void Reload()
         {
             BulletsInMagazine = MagazineSize;
         }
 
+        /// <summary>
+        /// Sets the weapon as equipped
+        /// </summary>
         public void Equip()
         {
             Equipped = true;

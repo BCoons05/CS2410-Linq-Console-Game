@@ -8,6 +8,7 @@ namespace ConsolePlatformer
     {
         static void Main(string[] args)
         {
+            //set default values until overridden by loaded data
             string file = "Save.txt";
             int GameLevel = 1;
             int Health = 25;
@@ -18,7 +19,7 @@ namespace ConsolePlatformer
 
             Background background = new Background(1, 105, 5, 29);
 
-            //Load Saved Data
+            //Load Saved Data and split to separate strings
             try
             {
                 using (StreamReader reader = new StreamReader(file))
@@ -82,9 +83,11 @@ namespace ConsolePlatformer
                 }
             }
 
+            //Equip the first weapon in the list
             inventory[0].Equip();
             player.EquipWeapon(inventory[0]);
 
+            //Create game and start
             Game game = new Game(player, background, GameLevel);
             game.Go();
         }
@@ -93,7 +96,7 @@ namespace ConsolePlatformer
         /// Gets weapon rarity from string value sent from saved data
         /// </summary>
         /// <param name="rarity"></param>
-        /// <returns></returns>
+        /// <returns>Rarities enum</returns>
         public static Rarities GetRarity(string rarity)
         {
             switch (rarity)

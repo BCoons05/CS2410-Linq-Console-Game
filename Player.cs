@@ -5,7 +5,14 @@ using System.Text;
 
 namespace ConsolePlatformer
 {
+	/// <summary>
+	/// Enum holds the possible directions for a player, enemy, or projectile
+	/// </summary>
 	enum Directions { RIGHT, LEFT, UP, DOWN }
+	/// <summary>
+	/// Class for a player object. Used as the indicator of where the user is on the screen. 
+	/// The player object can move based on key presses, and holds and inventory, health, and cash
+	/// </summary>
     class Player
     {
 		private Background background;
@@ -31,11 +38,19 @@ namespace ConsolePlatformer
 			Inventory = inventory;
 		}
 
+		/// <summary>
+		/// Equips the passed IWeapon for use by the player in game
+		/// </summary>
+		/// <param name="weapon">IWeapon</param>
 		public void EquipWeapon(IWeapon weapon)
 		{
 			EquipedWeapon = weapon;
 		}
 
+		/// <summary>
+		/// If player is facing right the player will be set to moving. 
+		/// If direction is not right, the direction will be set to right.
+		/// </summary>
 		public void MoveRight()
 		{
 			if (Direction == Directions.RIGHT)
@@ -44,6 +59,10 @@ namespace ConsolePlatformer
 				Direction = Directions.RIGHT;
 		}
 
+		/// <summary>
+		/// If player is facing left the player will be set to moving. 
+		/// If direction is not left, the direction will be set to left.
+		/// </summary>
 		public void MoveLeft()
 		{
 			if (Direction == Directions.LEFT)
@@ -52,6 +71,10 @@ namespace ConsolePlatformer
 				Direction = Directions.LEFT;
 		}
 
+		/// <summary>
+		/// If player is facing down the player will be set to moving. 
+		/// If direction is not down, the direction will be set to down.
+		/// </summary>
 		public void MoveDown()
 		{
 			if (Direction == Directions.DOWN)
@@ -60,6 +83,10 @@ namespace ConsolePlatformer
 				Direction = Directions.DOWN;
 		}
 
+		/// <summary>
+		/// If player is facing up the player will be set to moving. 
+		/// If direction is not up, the direction will be set to up.
+		/// </summary>
 		public void MoveUp()
 		{
 			if (Direction == Directions.UP)
@@ -68,6 +95,11 @@ namespace ConsolePlatformer
 				Direction = Directions.UP;
 		}
 
+		/// <summary>
+		/// Checks to see if passed enemy object is in the same position as the player. 
+		/// If the position is the same, then the player takes damage
+		/// </summary>
+		/// <param name="enemy"></param>
 		public void HitTest(Enemy enemy)
 		{
 			int enemyBottom = enemy.Bottom;
@@ -78,6 +110,10 @@ namespace ConsolePlatformer
 					TakeDamage(enemy);
 		}
 
+		/// <summary>
+		/// Player will take damage equal to the damage of the enemy object that is passed.
+		/// </summary>
+		/// <param name="enemy">Enemy</param>
 		public void TakeDamage(Enemy enemy)
 		{
 			CurrentHealth -= enemy.Damage;
@@ -85,6 +121,10 @@ namespace ConsolePlatformer
 			enemy.TakeDamage();
 		}
 
+		/// <summary>
+		/// If the user purchases health in the menu, This will increase the maxHealth and currentHealth
+		/// by 10 and then will decrease player cash by 1000
+		/// </summary>
 		public void UpgradeHealth()
 		{
 			MaxHealth += 10;
@@ -93,11 +133,17 @@ namespace ConsolePlatformer
 			background.DrawStatusBar(this);
 		}
 
+		/// <summary>
+		/// Used to set CurrentHealth to be equal to MaxHealth of player
+		/// </summary>
 		public void FullHeal()
 		{
 			CurrentHealth = MaxHealth;
 		}
 
+		/// <summary>
+		/// Moves player on screen based on the direction of the player and whether they are moving or not.
+		/// </summary>
 		public void Draw()
 		{
 			DrawPlayer(ConsoleColor.Black, Position, Bottom);
@@ -128,6 +174,13 @@ namespace ConsolePlatformer
 			DrawPlayer(Color, Position, Bottom);
 		}
 
+		/// <summary>
+		/// Draws player model on screen. Uses direction to decide where to draw the eyes.
+		/// Player model is drawn where the position and bottom are on screen.
+		/// </summary>
+		/// <param name="color">ConsoleColor for color of player model</param>
+		/// <param name="position">int for x position</param>
+		/// <param name="bottom">int for y bottom</param>
 		public void DrawPlayer(ConsoleColor color, int position, int bottom)
 		{
 			Console.SetCursorPosition(position, bottom);

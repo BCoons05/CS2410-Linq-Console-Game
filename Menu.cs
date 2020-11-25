@@ -6,6 +6,10 @@ using System.Threading;
 
 namespace ConsolePlatformer
 {
+    /// <summary>
+    /// Menu clas displays a menu on screen where player can view inventory, equip weapons, buy health, and buy weapons.
+    /// This is also used to display end game data.
+    /// </summary>
     class Menu
     {
         private Game game;
@@ -40,6 +44,9 @@ namespace ConsolePlatformer
             rnd = new Random();
         }
 
+        /// <summary>
+        /// Draws the outter walls of the menu and fills with black spaces to clear screen
+        /// </summary>
         public void OpenMenu()
         {
             Console.SetCursorPosition(LeftBound, Top);
@@ -66,6 +73,9 @@ namespace ConsolePlatformer
             }
         }
 
+        /// <summary>
+        /// Prints main menu options for user to navigate
+        /// </summary>
         public void PrintOptions()
         {
             Console.BackgroundColor = ConsoleColor.Black;
@@ -91,6 +101,9 @@ namespace ConsolePlatformer
             NavigateMenu();
         }
 
+        /// <summary>
+        /// Draws game results on player health reaching 0. Displays the cash and level
+        /// </summary>
         public void DrawGameResults()
         {
             Console.BackgroundColor = ConsoleColor.Black;
@@ -107,6 +120,9 @@ namespace ConsolePlatformer
             Console.Write("Press Any Button To Exit");
         }
 
+        /// <summary>
+        /// used to check for keys presses and navigate the menu based on the input
+        /// </summary>
         private void NavigateMenu()
         {
             while (menuOpen)
@@ -240,6 +256,10 @@ namespace ConsolePlatformer
             game.Go();
         }
 
+        /// <summary>
+        /// Draws a small menu box with the information about a user purchase
+        /// </summary>
+        /// <param name="purchase">string that states what was purchased</param>
         private void PurchaseConfirmation(string purchase)
         {
             int startTop = Top + 8;
@@ -280,6 +300,10 @@ namespace ConsolePlatformer
             NavigateMenu();
         }
 
+        /// <summary>
+        /// creates a random new IWeapon with random stats. Returns the weapon, or null if there is a weapontype error
+        /// </summary>
+        /// <returns>IWeapon</returns>
         private IWeapon CreateNewWeapon()
         {
             int weaponTypeRnd = rnd.Next(1, 4);
@@ -324,6 +348,9 @@ namespace ConsolePlatformer
             return null;
         }
 
+        /// <summary>
+        /// Draws empty black spaces to clear the menu
+        /// </summary>
         private void ClearMenu()
         {
             Console.BackgroundColor = ConsoleColor.Black;
@@ -337,6 +364,9 @@ namespace ConsolePlatformer
             }
         }
 
+        /// <summary>
+        /// uses linq to get all weapons with Rarities.LEGENDARY attribute
+        /// </summary>
         private void GetLegendaries()
         {
             IEnumerable<IWeapon> filtered =
@@ -350,6 +380,10 @@ namespace ConsolePlatformer
             UpdateMenuSelections(filteredInventory);
         }
 
+        /// <summary>
+        /// Updates the displayed weapon choices based on the filtered inventory list that is passed
+        /// </summary>
+        /// <param name="filteredWeapons">IEnumerable of weapons</param>
         private void UpdateMenuSelections(IEnumerable<IWeapon> filteredWeapons)
         {
             string divider = "--------------------------\n";
@@ -374,11 +408,21 @@ namespace ConsolePlatformer
             Console.Write(controls);
         }
 
+        /// <summary>
+        /// Gets the center value to help center text on screen or in menu
+        /// </summary>
+        /// <param name="myString">the string you want to display</param>
+        /// <param name="boundOne">the first bound to use to calculate center</param>
+        /// <param name="boundTwo">second bound to use to calculate center</param>
+        /// <returns></returns>
         public int GetCenter(string myString, int boundOne, int boundTwo)
         {
             return (boundTwo - boundOne) / 2 - myString.Length / 2;
         }
 
+        /// <summary>
+        /// uses linq to get all weapons with WeaponType.ROCKETLAUNCHER attribute
+        /// </summary>
         private void GetLaunchers()
         {
             IEnumerable<IWeapon> filtered =
@@ -392,6 +436,9 @@ namespace ConsolePlatformer
             UpdateMenuSelections(filteredInventory);
         }
 
+        /// <summary>
+        /// uses linq to get all weapons with Rarities.RARE attribute
+        /// </summary>
         private void GetRares()
         {
             IEnumerable<IWeapon> filtered =
@@ -405,6 +452,9 @@ namespace ConsolePlatformer
             UpdateMenuSelections(filteredInventory);
         }
 
+        /// <summary>
+        /// uses linq to get all weapons with Rarities.SHOTGUN attribute
+        /// </summary>
         private void GetShotguns()
         {
             IEnumerable<IWeapon> filtered =
@@ -418,6 +468,9 @@ namespace ConsolePlatformer
             UpdateMenuSelections(filteredInventory);
         }
 
+        /// <summary>
+        /// uses linq to get all weapons with Rarities.COMMON attribute
+        /// </summary>
         private void GetCommons()
         {
             IEnumerable<IWeapon> filtered =
@@ -431,6 +484,9 @@ namespace ConsolePlatformer
             UpdateMenuSelections(filteredInventory);
         }
 
+        /// <summary>
+        /// uses linq to get all weapons with WeaponType.MACHINEGUN attribute
+        /// </summary>
         private void GetMachineGuns()
         {
             IEnumerable<IWeapon> filtered =

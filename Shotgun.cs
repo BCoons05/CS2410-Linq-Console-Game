@@ -32,6 +32,12 @@ namespace ConsolePlatformer
             this.background = background;
             BulletsInMagazine = MagazineSize;
         }
+
+        /// <summary>
+        /// Creates a projectile after space is pressed. The projectile is saved to a list and returned to be drawn
+        /// Shotguns will have 3 projectiles per shot
+        /// </summary>
+        /// <returns>List<Projectile> that holds all projectiles to be fired</returns>
         public List<Projectile> Fire()
         {
             List<Projectile> shots = new List<Projectile>();
@@ -77,13 +83,17 @@ namespace ConsolePlatformer
             return shots;
         }
 
+        /// <summary>
+        /// Sets bulletsinmagazine to be equal to magazine size
+        /// </summary>
         public void Reload()
         {
-            //Display reloading...
-            //wait for reload?
             BulletsInMagazine = MagazineSize;
         }
 
+        /// <summary>
+        /// Sets the weapon as equipped
+        /// </summary>
         public void Equip()
         {
             Equipped = true;

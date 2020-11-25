@@ -2,6 +2,9 @@
 
 namespace ConsolePlatformer
 {
+	/// <summary>
+	/// Class to create the game background. Prints walls, health bar, status bar, and controls.
+	/// </summary>
     class Background
     {
 		public int LeftWall { get; }
@@ -17,6 +20,10 @@ namespace ConsolePlatformer
 			BottomWall = bottomBound;
 		}
 
+		/// <summary>
+		/// Draws health bar based on passed player current health and fills empty black spaces up to the max health
+		/// </summary>
+		/// <param name="player">Player</param>
 		public void DrawHealthBar(Player player)
 		{
 			Console.BackgroundColor = ConsoleColor.Black;
@@ -40,6 +47,11 @@ namespace ConsolePlatformer
 			}
 		}
 
+		/// <summary>
+		/// Draws status bar containing current cash, level, and equipped weapon 
+		/// for the passed player object
+		/// </summary>
+		/// <param name="player">Player</param>
 		public void DrawStatusBar(Player player)
 		{
 			int maxStringLength = 25;
@@ -51,6 +63,10 @@ namespace ConsolePlatformer
 			for (int i = weaponString.Length; i <= maxStringLength; i++) Console.Write(' ');
 		}
 
+		/// <summary>
+		/// Draws current bulletsInMagazine and magSize based on passed player
+		/// </summary>
+		/// <param name="player">Player</param>
 		public void DrawAmmo(Player player)
 		{
 			Console.BackgroundColor = ConsoleColor.Black;
@@ -58,6 +74,11 @@ namespace ConsolePlatformer
 			Console.SetCursorPosition(LeftWall + (player.MaxHealth), TopWall - 2);
 			Console.Write($"{(player.EquipedWeapon.BulletsInMagazine > 0 ? $"{player.EquipedWeapon.BulletsInMagazine, 25}" : $"{"Reloading...", 25}")} / {player.EquipedWeapon.MagazineSize}");
 		}
+
+		/// <summary>
+		/// Draws outer walls in passed color to set boundaries for the game
+		/// </summary>
+		/// <param name="color">ConsoleColor</param>
 		public void DrawBackground(ConsoleColor color)
 		{
 			Console.BackgroundColor = color;
@@ -80,6 +101,9 @@ namespace ConsolePlatformer
 			}
 		}
 
+		/// <summary>
+		/// Draws game controls to the right of the game walls
+		/// </summary>
 		private void DrawControls()
 		{
 			Console.BackgroundColor = ConsoleColor.Black;
@@ -128,6 +152,11 @@ namespace ConsolePlatformer
 
 		}
 
+		/// <summary>
+		/// Draws all background methods
+		/// </summary>
+		/// <param name="color">ConsoleColor for walls</param>
+		/// <param name="player">Player to get status from</param>
 		public void DrawAll(ConsoleColor color, Player player)
 		{
 			DrawStatusBar(player);
