@@ -225,6 +225,8 @@ namespace ConsolePlatformer
                             }  
                             else
                             {
+                                filteredInventory = player.Inventory;
+                                header = "";
                                 ClearMenu();
                                 OpenMenu();
                                 PrintOptions();
@@ -257,8 +259,10 @@ namespace ConsolePlatformer
             Console.SetCursorPosition(LeftBound + 30, startTop + 11);
             for (int i = 0; i < 50; i++) Console.Write(' ');
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(LeftBound + 31, startTop + 5);
+            Console.SetCursorPosition(LeftBound + 35, startTop + 5);
             Console.Write($" {purchase, -20}");
+            Console.SetCursorPosition(LeftBound + 41, startTop + 8);
+            Console.Write($"SpaceBar to Equip");
 
             while (!Console.KeyAvailable)
             {

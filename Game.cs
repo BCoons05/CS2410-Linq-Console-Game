@@ -171,7 +171,6 @@ namespace ConsolePlatformer
                     break;
                 case ConsoleKey.Q:
                     running = false;
-                    SaveAndQuit();
                     break;
             }
 
