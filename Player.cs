@@ -88,13 +88,10 @@ namespace ConsolePlatformer
 		//TODO Display confirmation message and update cash in background
 		public void UpgradeHealth()
 		{
-			if(Cash >= 1000)
-			{
-				MaxHealth += 10;
-				CurrentHealth += 10;
-				Cash -= 1000;
-				background.DrawStatusBar(this);
-			}
+			MaxHealth += 10;
+			CurrentHealth += 10;
+			Cash -= 1000;
+			background.DrawStatusBar(this);
 		}
 
 		public void FullHeal()

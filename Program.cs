@@ -50,7 +50,7 @@ namespace ConsolePlatformer
                         else 
                         {
                             splitLine = line.Split(':');
-                            string[] newItem = { splitLine[0], splitLine[1] };
+                            string[] newItem = { splitLine[0], splitLine[1], splitLine[2], splitLine[3], splitLine[4] };
                             inventoryList.Add(newItem);
                         }
                     }
@@ -65,19 +65,19 @@ namespace ConsolePlatformer
 
             Player player = new Player(background, background.LeftWall + 50, background.TopWall + 11, Health, MaxHealth, Cash, inventory);
 
-            //Create inventory from dictionary
+            //Create inventory from list
             foreach(string[] pair in inventoryList)
             {
                 switch (pair[0])
                 {
                     case "MACHINEGUN":
-                        inventory.Add(new MachineGun(WeaponTypes.MACHINEGUN, GetRarity(pair[1]), player, background));
+                        inventory.Add(new MachineGun(WeaponTypes.MACHINEGUN, GetRarity(pair[1]), int.Parse(pair[2]), int.Parse(pair[3]), int.Parse(pair[4]), player, background));
                         break;
                     case "SHOTGUN":
-                        inventory.Add(new Shotgun(WeaponTypes.SHOTGUN, GetRarity(pair[1]), player, background));
+                        inventory.Add(new Shotgun(WeaponTypes.SHOTGUN, GetRarity(pair[1]), int.Parse(pair[2]), int.Parse(pair[3]), int.Parse(pair[4]), player, background));
                         break;
                     case "ROCKETLAUNCHER":
-                        inventory.Add(new RocketLauncher(WeaponTypes.ROCKETLAUNCHER, GetRarity(pair[1]), player, background));
+                        inventory.Add(new RocketLauncher(WeaponTypes.ROCKETLAUNCHER, GetRarity(pair[1]), int.Parse(pair[2]), int.Parse(pair[3]), int.Parse(pair[4]), player, background));
                         break;
                 }
             }

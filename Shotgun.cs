@@ -13,21 +13,23 @@ namespace ConsolePlatformer
         public int Damage { get; }
         public int FireRate { get; }
         public int MagazineSize { get; }
+        public double ReloadSpeed { get; }
         public int BulletsInMagazine { get; private set; }
         public bool Equipped { get; private set; }
         public bool Reloading { get; set; }
         private Player player;
         private Background background;
 
-        public Shotgun(WeaponTypes type, Rarities rarity, Player player, Background background)
+        public Shotgun(WeaponTypes type, Rarities rarity, int magSize, int damage, double reloadSpeed, Player player, Background background)
         {
             Type = type;
             Rarity = rarity;
-            Damage = rarity == Rarities.COMMON ? 5 : rarity == Rarities.RARE ? 10 : 15;
-            FireRate = rarity == Rarities.COMMON ? 4 : rarity == Rarities.RARE ? 3 : 2;
+            Damage = damage;
+            MagazineSize = magSize;
+            ReloadSpeed = reloadSpeed;
+            FireRate = rarity == Rarities.COMMON ? 2 : 1;
             this.player = player;
             this.background = background;
-            MagazineSize = 5;
             BulletsInMagazine = MagazineSize;
         }
         public List<Projectile> Fire()

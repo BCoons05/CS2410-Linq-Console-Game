@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-
+using System.Threading;
 
 namespace ConsolePlatformer
 {
@@ -18,7 +19,9 @@ namespace ConsolePlatformer
         private bool menuOpen;
         private string header;
         private int itemNumber;
-        private bool onInventoryScreen;
+        private bool onMainMenu;
+        private IWeapon newWeapon;
+        private Random rnd;
 
         public Menu(Player player, Game game)
         {
@@ -33,7 +36,8 @@ namespace ConsolePlatformer
             menuOpen = true;
             header = "";
             itemNumber = 0;
-            onInventoryScreen = false;
+            onMainMenu = true;
+            rnd = new Random();
         }
 
         public void OpenMenu()
@@ -77,12 +81,13 @@ namespace ConsolePlatformer
             Console.SetCursorPosition(LeftBound + 1, Top + 12);
             Console.Write($"{' ', -20}B - Rocket Launchers {' ',-20}L - Legendary Weapons");
             Console.SetCursorPosition(GetCenter("O - Purchase Random Weapon for $1000"), Top + 15);
-            Console.Write("O - Purchase Random Weapon for $1000");
+            Console.Write("W - Purchase Random Weapon for $1000");
             Console.SetCursorPosition(GetCenter("H - Purchase +10 Max Health for $1000"), Top + 18);
             Console.Write("H - Purchase +10 Max Health for $1000");
             Console.SetCursorPosition(GetCenter("Enter to Close Menu"), Bottom - 3);
             Console.Write("Enter to Close Menu");
 
+            onMainMenu = true;
             NavigateMenu();
         }
 
@@ -114,34 +119,45 @@ namespace ConsolePlatformer
                     {
                         case ConsoleKey.M:
                             GetMachineGuns();
-                            onInventoryScreen = true;
+                            onMainMenu = false;
                             break;
                         case ConsoleKey.C:
                             GetCommons();
-                            onInventoryScreen = true;
+                            onMainMenu = false;
                             break;
                         case ConsoleKey.S:
                             GetShotguns();
-                            onInventoryScreen = true;
+                            onMainMenu = false;
                             break;
                         case ConsoleKey.R:
                             GetRares();
-                            onInventoryScreen = true;
+                            onMainMenu = false;
                             break;
                         case ConsoleKey.B:
                             GetLaunchers();
-                            onInventoryScreen = true;
+                            onMainMenu = false;
                             break;
                         case ConsoleKey.L:
                             GetLegendaries();
-                            onInventoryScreen = true;
+                            onMainMenu = false;
                             break;
                         case ConsoleKey.H:
-                            if (!onInventoryScreen)
+                            if (onMainMenu && player.Cash >= 1000)
+                            {
                                 player.UpgradeHealth();
+                                PurchaseConfirmation("Health increased by 10!");
+                            }  
+                            break;
+                        case ConsoleKey.W:
+                            if (onMainMenu && player.Cash >= 1000)
+                            {
+                                newWeapon = CreateNewWeapon();
+                                player.Inventory.Add(newWeapon);
+                                PurchaseConfirmation(newWeapon.ToString());
+                            }
                             break;
                         case ConsoleKey.UpArrow:
-                            if (onInventoryScreen)
+                            if (!onMainMenu)
                             {
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
@@ -168,7 +184,7 @@ namespace ConsolePlatformer
                             }
                             break;
                         case ConsoleKey.DownArrow:
-                            if (onInventoryScreen)
+                            if (!onMainMenu)
                             {
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 Console.ForegroundColor = ConsoleColor.White;
@@ -195,7 +211,7 @@ namespace ConsolePlatformer
                             }
                             break;
                         case ConsoleKey.Spacebar:
-                            if (onInventoryScreen)
+                            if (!onMainMenu)
                             {
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 filteredInventory[itemNumber].Equip();
@@ -203,14 +219,105 @@ namespace ConsolePlatformer
                             }
                             break;
                         case ConsoleKey.Enter:
-                            menuOpen = false;
-                            onInventoryScreen = false;
+                            if (onMainMenu)
+                            {
+                                menuOpen = false;
+                            }  
+                            else
+                            {
+                                ClearMenu();
+                                OpenMenu();
+                                PrintOptions();
+                                onMainMenu = true;
+                            }
                             break;
                     }
                 }
             }
             ClearMenu();
             game.Go();
+        }
+
+        private void PurchaseConfirmation(string purchase)
+        {
+            int startTop = Top + 8;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(LeftBound + 30, startTop);
+            for (int i = 0; i < 50; i++) Console.Write(' ');
+            for (int j = 1; j < 12; j++)
+            {
+                Console.SetCursorPosition(LeftBound + 30, startTop + j);
+                Console.Write(' ');
+                Console.BackgroundColor = ConsoleColor.Black;
+                for (int i = 0; i < 48; i++) Console.Write(' ');
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.Write(' ');
+            }
+            Console.SetCursorPosition(LeftBound + 30, startTop + 11);
+            for (int i = 0; i < 50; i++) Console.Write(' ');
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(LeftBound + 31, startTop + 5);
+            Console.Write($" {purchase, -20}");
+
+            while (!Console.KeyAvailable)
+            {
+                Thread.Sleep(100);
+            }
+            if (Console.ReadKey().Key == ConsoleKey.Spacebar && newWeapon != null)
+            {
+                player.EquipWeapon(newWeapon);
+                game.Background.DrawStatusBar(player);
+            }  
+
+            ClearMenu();
+            OpenMenu();
+            PrintOptions();
+            NavigateMenu();
+        }
+
+        private IWeapon CreateNewWeapon()
+        {
+            int weaponTypeRnd = rnd.Next(1, 4);
+            WeaponTypes weaponType;
+            int rarityRnd = rnd.Next(1, 11);
+            Rarities rarity;
+            int magSize;
+            int damage;
+            double reloadSpeed;
+
+            player.Cash -= 1000;
+            game.Background.DrawStatusBar(player);
+
+            if (weaponTypeRnd == 1)
+                weaponType = WeaponTypes.ROCKETLAUNCHER;
+            else if (weaponTypeRnd == 2)
+                weaponType = WeaponTypes.MACHINEGUN;
+            else
+                weaponType = WeaponTypes.SHOTGUN;
+
+            if (rarityRnd == 10)
+                rarity = Rarities.LEGENDARY;
+            else if (rarityRnd <= 6)
+                rarity = Rarities.COMMON;
+            else
+                rarity = Rarities.RARE;
+
+            magSize = weaponType == WeaponTypes.MACHINEGUN ? rnd.Next(10, 31) : weaponType == WeaponTypes.SHOTGUN ? rnd.Next(2, 9) : rnd.Next(1, 5);
+            damage = rarity == Rarities.LEGENDARY ? rnd.Next(8, 21) : rarity == Rarities.RARE ? rnd.Next(5, 16) : rnd.Next(3, 11);
+            reloadSpeed = rarity == Rarities.LEGENDARY ? rnd.Next(500, 2000) : rnd.Next(1000, 2500);
+
+            switch (weaponType)
+            {
+                case WeaponTypes.MACHINEGUN:
+                    return new MachineGun(weaponType, rarity, magSize, damage, reloadSpeed, player, game.Background);
+                case WeaponTypes.SHOTGUN:
+                    return new Shotgun(weaponType, rarity, magSize, damage, reloadSpeed, player, game.Background);
+                case WeaponTypes.ROCKETLAUNCHER:
+                    return new RocketLauncher(weaponType, rarity, magSize, damage, reloadSpeed, player, game.Background);
+            }
+
+            return null;
         }
 
         private void ClearMenu()

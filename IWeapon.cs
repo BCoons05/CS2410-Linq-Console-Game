@@ -13,6 +13,7 @@ namespace ConsolePlatformer
         int Damage { get; }
         int FireRate { get; }
         int MagazineSize { get; }
+        double ReloadSpeed { get; }
         int BulletsInMagazine { get; }
         bool Equipped { get; }
         List<Projectile> Fire();

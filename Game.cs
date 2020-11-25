@@ -9,7 +9,7 @@ namespace ConsolePlatformer
     class Game
     {
         private Player player;
-        private Background background;
+        public  Background Background;
         private bool running;
         private List<Enemy> enemies;
         private List<Projectile> projectiles;
@@ -21,7 +21,7 @@ namespace ConsolePlatformer
         private Menu menu;
         public Game(Player player, Background background, int loadLevel)
         {
-            this.background = background;
+            Background = background;
             this.player = player;
             running = true;
             enemies = new List<Enemy>();
@@ -64,7 +64,7 @@ namespace ConsolePlatformer
 
                     foreach (Enemy en in enemies)
                     {
-                        if (en.Position < background.RightWall && en.SpawnTimer.ElapsedMilliseconds >= 500)
+                        if (en.Position < Background.RightWall && en.SpawnTimer.ElapsedMilliseconds >= 500)
                         {
                             en.Draw();
                             player.HitTest(en);
@@ -78,7 +78,7 @@ namespace ConsolePlatformer
                     }
 
                     ReloadWeapon();
-                    background.DrawAmmo(player);
+                    Background.DrawAmmo(player);
 
                     player.Draw();
                 }
@@ -86,7 +86,7 @@ namespace ConsolePlatformer
 
             menu.OpenMenu();
             menu.DrawGameResults();
-            Console.SetCursorPosition(0, background.BottomWall - 1);
+            Console.SetCursorPosition(0, Background.BottomWall - 1);
             if(player.CurrentHealth <= 0)
             {
                 player.FullHeal();
@@ -116,10 +116,10 @@ namespace ConsolePlatformer
             waves++;
             for (int i = 0; i < Level; i++)
             {
-                int position = rnd.Next(background.LeftWall + 2, background.RightWall - 1);
-                int bottom = rnd.Next(background.TopWall + 2, background.BottomWall - 1);
+                int position = rnd.Next(Background.LeftWall + 2, Background.RightWall - 1);
+                int bottom = rnd.Next(Background.TopWall + 2, Background.BottomWall - 1);
                 int speed = rnd.Next(2, 6);
-                Enemy enemy = new Enemy(speed, background, position, bottom, 15, 10, player, this);
+                Enemy enemy = new Enemy(speed, Background, position, bottom, 15, 10, player, this);
                 enemies.Add(enemy);
                 enemy.DrawSpawnMarker();
             }
@@ -131,7 +131,7 @@ namespace ConsolePlatformer
             if (waves > 5)
             {
                 Level++;
-                background.DrawStatusBar(player);
+                Background.DrawStatusBar(player);
                 waves = 1;
             }
         }
@@ -165,6 +165,7 @@ namespace ConsolePlatformer
                     break;
                 case ConsoleKey.P:
                     clock.Stop();
+                    menu = new Menu(player, this);
                     menu.OpenMenu();
                     menu.PrintOptions();
                     break;
@@ -179,7 +180,7 @@ namespace ConsolePlatformer
 
         private void ReloadWeapon()
         {
-            if (reloadTimer.ElapsedMilliseconds >= 1700)
+            if (reloadTimer.ElapsedMilliseconds >= player.EquipedWeapon.ReloadSpeed)
             {
                 player.EquipedWeapon.Reload();
                 reloadTimer.Reset();
@@ -199,7 +200,7 @@ namespace ConsolePlatformer
         private void Setup()
         {
             Console.CursorVisible = false;
-            background.DrawAll(ConsoleColor.DarkBlue, player);
+            Background.DrawAll(ConsoleColor.DarkBlue, player);
             player.Draw();
         }
 
@@ -217,7 +218,7 @@ namespace ConsolePlatformer
                     writer.WriteLine($"MAXHEALTH:{player.MaxHealth}");
                     foreach(IWeapon weapon in player.Inventory)
                     {
-                        writer.WriteLine($"{weapon.Type}:{weapon.Rarity}");
+                        writer.WriteLine($"{weapon.Type}:{weapon.Rarity}:{weapon.MagazineSize}:{weapon.Damage}:{weapon.ReloadSpeed}");
                     }
                 }
             }
