@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace ConsolePlatformer
@@ -17,7 +18,7 @@ namespace ConsolePlatformer
         private List<Enemy> enemies;
         private List<Projectile> projectiles;
         private Random rnd;
-        public static int Level;
+        public int Level;
         private int waves;
         private Stopwatch clock;
         private Stopwatch reloadTimer;
@@ -94,8 +95,15 @@ namespace ConsolePlatformer
                 }
             }
 
+            menu = new Menu(player, this);
             menu.OpenMenu();
             menu.DrawGameResults();
+
+            while (!Console.KeyAvailable)
+            {
+                Thread.Sleep(100);
+            }
+
             Console.SetCursorPosition(0, Background.BottomWall - 1);
             if (player.CurrentHealth <= 0)
             {
@@ -122,9 +130,24 @@ namespace ConsolePlatformer
         /// <param name="en"></param>
         private void CheckProjectileHits(Enemy en)
         {
+            List<Projectile> newProjectiles = new List<Projectile>();
             foreach (Projectile pro in projectiles)
             {
-                en.HitTest(pro);
+                if (pro.Type == ProjectileType.ROCKET && en.HitTest(pro))
+                {
+                    foreach (Projectile proj in pro.Explode())
+                    {
+                        newProjectiles.Add(proj);
+                    }
+                }
+                else
+                {
+                    en.HitTest(pro);
+                }
+            }
+            foreach (Projectile pro in newProjectiles)
+            {
+                projectiles.Add(pro);
             }
         }
 
@@ -169,7 +192,7 @@ namespace ConsolePlatformer
             if (waves > 5)
             {
                 Level++;
-                Background.DrawStatusBar(player);
+                Background.DrawStatusBar(player, this);
                 waves = 1;
             }
         }
@@ -245,6 +268,7 @@ namespace ConsolePlatformer
         {
             Console.CursorVisible = false;
             Background.DrawAll(ConsoleColor.DarkBlue, player);
+            Background.DrawStatusBar(player, this);
             player.Draw();
             Console.SetCursorPosition(menu.GetCenter("Press Any Key to Start", Background.LeftWall, Background.RightWall), menu.GetCenter(" ", Background.TopWall, Background.BottomWall));
             Console.Write("Press Any Key to Start");

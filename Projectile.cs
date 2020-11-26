@@ -23,9 +23,9 @@ namespace ConsolePlatformer
 		private int frames;
 		private Background background;
 		private ConsoleColor Color = ConsoleColor.Black;
-		public ConsoleColor TextColor { get; set; }
+		public ConsoleColor TextColor { get; }
 		private int distance;
-		public Projectile(ProjectileType type, int position, int bottom, Directions direction, int speed, int damage, Background background)
+		public Projectile(ProjectileType type, int position, int bottom, Directions direction, int speed, int damage, ConsoleColor color, Background background)
 		{
 			Type = type;
 			Speed = speed;
@@ -35,8 +35,8 @@ namespace ConsolePlatformer
 			Direction = direction;
 			frames = 0;
 			this.background = background;
-			TextColor = ConsoleColor.Yellow;
 			distance = type == ProjectileType.PELLET ? 12 : 100;
+			TextColor = color;
 		}
 
 		/// <summary>
@@ -49,22 +49,22 @@ namespace ConsolePlatformer
 			if (frames % Speed == 0)
 			{
 				distance--;
-				ClearProjectile(ConsoleColor.Black, Position, Bottom);
+				ClearProjectile(Position, Bottom);
 				if (distance > 0 && Position > background.LeftWall + 1 && Position < background.RightWall - 1 && Bottom > background.TopWall + 1 && Bottom < background.BottomWall - 1)
 				{
 					switch (Direction)
 					{
 						case Directions.RIGHT:
-							DrawProjectile(Color, ++Position, Bottom);
+							DrawProjectile(++Position, Bottom);
 							break;
 						case Directions.LEFT:
-							DrawProjectile(Color, --Position, Bottom);
+							DrawProjectile(--Position, Bottom);
 							break;
 						case Directions.UP:
-							DrawProjectile(Color, Position, --Bottom);
+							DrawProjectile(Position, --Bottom);
 							break;
 						case Directions.DOWN:
-							DrawProjectile(Color, Position, ++Bottom);
+							DrawProjectile(Position, ++Bottom);
 							break;
 					}
 				}
@@ -80,15 +80,33 @@ namespace ConsolePlatformer
 		/// <param name="color">ConsoleColor of the projectile</param>
 		/// <param name="position">int x position</param>
 		/// <param name="bottom">int y position</param>
-		public void DrawProjectile(ConsoleColor color, int position, int bottom)
+		public void DrawProjectile(int position, int bottom)
 		{
 			Console.SetCursorPosition(position, bottom);
-			Console.BackgroundColor = color;
+			Console.BackgroundColor = Color;
 			Console.ForegroundColor = TextColor;
 			if (Direction == Directions.UP || Direction == Directions.DOWN)
-				Console.Write(Type == ProjectileType.BULLET ? '|' : '"');
+				Console.Write(Type == ProjectileType.BULLET ? "|" : Type == ProjectileType.ROCKET ? "*" : "\"");
 			else if (Direction == Directions.RIGHT || Direction == Directions.LEFT)
-				Console.Write(Type == ProjectileType.BULLET ? '-' : ':');
+				Console.Write(Type == ProjectileType.BULLET ? "-" : Type == ProjectileType.ROCKET ? "*" : ":");
+		}
+
+		/// <summary>
+		/// Rocket explodes, spawning 4 new projectiles
+		/// </summary>
+		/// <returns></returns>
+		public List<Projectile> Explode()
+		{
+			List<Projectile> shots = new List<Projectile>();
+			Projectile projectile1 = new Projectile(ProjectileType.PELLET, Position, Bottom - 3, Directions.DOWN, 5, Damage, TextColor, background);
+			Projectile projectile2 = new Projectile(ProjectileType.PELLET, Position, Bottom + 3, Directions.UP, 5, Damage, TextColor, background);
+			Projectile projectile3 = new Projectile(ProjectileType.PELLET, Position + 3, Bottom, Directions.RIGHT, 5, Damage, TextColor, background);
+			Projectile projectile4 = new Projectile(ProjectileType.PELLET, Position - 3, Bottom, Directions.LEFT, 5, Damage, TextColor, background);
+			shots.Add(projectile1);
+			shots.Add(projectile2);
+			shots.Add(projectile3);
+			shots.Add(projectile4);
+			return shots;
 		}
 
 		/// <summary>
@@ -97,10 +115,10 @@ namespace ConsolePlatformer
 		/// <param name="color"></param>
 		/// <param name="position"></param>
 		/// <param name="bottom"></param>
-		public void ClearProjectile(ConsoleColor color, int position, int bottom)
+		public void ClearProjectile(int position, int bottom)
 		{
 			Console.SetCursorPosition(position, bottom);
-			Console.BackgroundColor = color;
+			Console.BackgroundColor = Color;
 			Console.Write(' ');
 			Console.SetCursorPosition(background.RightWall + 1, Bottom);
 		}

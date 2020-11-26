@@ -125,12 +125,12 @@ namespace ConsolePlatformer
 		/// If the user purchases health in the menu, This will increase the maxHealth and currentHealth
 		/// by 10 and then will decrease player cash by 1000
 		/// </summary>
-		public void UpgradeHealth()
+		public void UpgradeHealth(Game game)
 		{
 			MaxHealth += 10;
 			CurrentHealth += 10;
 			Cash -= 1000;
-			background.DrawStatusBar(this);
+			background.DrawStatusBar(this, game);
 		}
 
 		/// <summary>

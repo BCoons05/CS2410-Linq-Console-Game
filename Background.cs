@@ -52,14 +52,14 @@ namespace ConsolePlatformer
 		/// for the passed player object
 		/// </summary>
 		/// <param name="player">Player</param>
-		public void DrawStatusBar(Player player)
+		public void DrawStatusBar(Player player, Game game)
 		{
 			int maxStringLength = 25;
 			string weaponString = $"{player.EquipedWeapon.Rarity} {player.EquipedWeapon.Type}";
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.SetCursorPosition(LeftWall + 2, TopWall - 4);
-			Console.Write($"CASH: {player.Cash, -35}ROUND {Game.Level, -25} {weaponString}");
+			Console.Write($"CASH: {player.Cash, -35}ROUND {game.Level, -25} {weaponString}");
 			for (int i = weaponString.Length; i <= maxStringLength; i++) Console.Write(' ');
 		}
 
@@ -159,7 +159,6 @@ namespace ConsolePlatformer
 		/// <param name="player">Player to get status from</param>
 		public void DrawAll(ConsoleColor color, Player player)
 		{
-			DrawStatusBar(player);
 			DrawHealthBar(player);
 			DrawAmmo(player);
 			DrawBackground(color);

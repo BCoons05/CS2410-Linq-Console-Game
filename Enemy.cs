@@ -82,7 +82,7 @@ namespace ConsolePlatformer
 		/// If the positions are the same, the enemy will TakeDamage from the passed projectile
 		/// </summary>
 		/// <param name="projectile"></param>
-		public void HitTest(Projectile projectile)
+		public bool HitTest(Projectile projectile)
 		{
 			int projectileBottom = projectile.Bottom;
 			int projectilePosition = projectile.Position;
@@ -92,10 +92,13 @@ namespace ConsolePlatformer
 				if (projectileBottom == Bottom - 1 || projectileBottom == Bottom)
 				{
 					TakeDamage(projectile);
-					projectile.Position = background.RightWall + 2;
+					if(player.EquipedWeapon.Type != WeaponTypes.ROCKETLAUNCHER && projectile.Type != ProjectileType.PELLET)
+						projectile.Position = background.RightWall + 2;
+
+					return true;
 				}	
 			}
-				
+			return false;
 		}
 
 		/// <summary>
@@ -114,7 +117,7 @@ namespace ConsolePlatformer
 				Position = background.RightWall + 2;
 				DrawEnemy(ConsoleColor.Black, Position, Bottom);
 				player.Cash += MaxHealth;
-				background.DrawStatusBar(player);
+				background.DrawStatusBar(player, game);
 			}	
 		}
 

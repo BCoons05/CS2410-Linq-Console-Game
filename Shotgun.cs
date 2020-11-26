@@ -10,6 +10,7 @@ namespace ConsolePlatformer
     {
         public WeaponTypes Type { get; }
         public Rarities Rarity { get; }
+        private ConsoleColor ProjectileColor;
         public int Damage { get; }
         public int FireRate { get; }
         public int MagazineSize { get; }
@@ -31,6 +32,7 @@ namespace ConsolePlatformer
             this.player = player;
             this.background = background;
             BulletsInMagazine = MagazineSize;
+            ProjectileColor = rarity == Rarities.LEGENDARY ? ConsoleColor.Red : rarity == Rarities.RARE ? ConsoleColor.Green : ConsoleColor.DarkYellow;
         }
 
         /// <summary>
@@ -47,33 +49,33 @@ namespace ConsolePlatformer
             switch (player.Direction)
             {
                 case Directions.DOWN:
-                    Projectile projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                    Projectile projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom + 1, player.Direction, FireRate, Damage, background);
-                    Projectile projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom + 1, player.Direction, FireRate, Damage, background);
+                    Projectile projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom + 1, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    Projectile projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom + 1, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    Projectile projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom + 1, player.Direction, FireRate, Damage, ProjectileColor, background);
                     shots.Add(projectile);
                     shots.Add(projectile2);
                     shots.Add(projectile3);
                     break;
                 case Directions.RIGHT:
-                    projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom, player.Direction, FireRate, Damage, background);
-                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
+                    projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 1, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, ProjectileColor, background);
                     shots.Add(projectile);
                     shots.Add(projectile2);
                     shots.Add(projectile3);
                     break;
                 case Directions.LEFT:
-                    projectile = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 1, player.Direction, FireRate, Damage, background);
-                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom, player.Direction, FireRate, Damage, background);
-                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
+                    projectile = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 1, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, ProjectileColor, background);
                     shots.Add(projectile);
                     shots.Add(projectile2);
                     shots.Add(projectile3);
                     break;
                 case Directions.UP:
-                    projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
-                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom -2, player.Direction, FireRate, Damage, background);
-                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, background);
+                    projectile = new Projectile(ProjectileType.PELLET, player.Position + 1, player.Bottom - 2, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    projectile2 = new Projectile(ProjectileType.PELLET, player.Position, player.Bottom -2, player.Direction, FireRate, Damage, ProjectileColor, background);
+                    projectile3 = new Projectile(ProjectileType.PELLET, player.Position - 1, player.Bottom - 2, player.Direction, FireRate, Damage, ProjectileColor, background);
                     shots.Add(projectile);
                     shots.Add(projectile2);
                     shots.Add(projectile3);
@@ -101,7 +103,7 @@ namespace ConsolePlatformer
 
         public override string ToString()
         {
-            return $"{Rarity} {Type} Damage: {Damage} Mag size: {MagazineSize}";
+            return $"{Rarity} {Type} Dam:{Damage} Mag:{MagazineSize} Reload:{ReloadSpeed}";
         }
     }
 }

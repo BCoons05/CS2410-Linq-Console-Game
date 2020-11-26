@@ -12,6 +12,7 @@ namespace ConsolePlatformer
     {
         public WeaponTypes Type { get; }
         public Rarities Rarity { get; }
+        private ConsoleColor ProjectileColor;
         public int Damage { get; }
         public int FireRate { get; }
         public int MagazineSize { get; }
@@ -32,6 +33,7 @@ namespace ConsolePlatformer
             this.player = player;
             this.background = background;
             BulletsInMagazine = MagazineSize;
+            ProjectileColor = rarity == Rarities.LEGENDARY ? ConsoleColor.Red : rarity == Rarities.RARE ? ConsoleColor.Green : ConsoleColor.DarkYellow;
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace ConsolePlatformer
             else if (player.Position == background.RightWall - 1)
                 position = player.Position - 1;
 
-            Projectile projectile = new Projectile(ProjectileType.BULLET, position, player.Bottom - 1, player.Direction, FireRate, Damage, background);
+            Projectile projectile = new Projectile(ProjectileType.BULLET, position, player.Bottom - 1, player.Direction, FireRate, Damage, ProjectileColor, background);
             shots.Add(projectile);
             return shots;
         }

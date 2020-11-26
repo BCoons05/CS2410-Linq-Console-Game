@@ -112,10 +112,8 @@ namespace ConsolePlatformer
             Console.Write("YOU DIED!");
             Console.SetCursorPosition(GetCenter("-----------", LeftBound, RightBound), Top + 4);
             Console.Write("-----------");
-            Console.SetCursorPosition(GetCenter($"You Have {player.Cash} Cash", LeftBound, RightBound), Top + 6);
-            Console.Write($"You Have {player.Cash} Cash");
-            Console.SetCursorPosition(GetCenter($"You Reached Level {Game.Level}", LeftBound, RightBound), Top + 9);
-            Console.Write($"You Reached Level {Game.Level}");
+            Console.SetCursorPosition(GetCenter($"You Reached Level {game.Level}", LeftBound, RightBound), Top + 9);
+            Console.Write($"You Reached Level {game.Level}");
             Console.SetCursorPosition(GetCenter("Press Any Button To Exit", LeftBound, RightBound), Bottom - 3);
             Console.Write("Press Any Button To Exit");
         }
@@ -160,7 +158,7 @@ namespace ConsolePlatformer
                         case ConsoleKey.H:
                             if (onMainMenu && player.Cash >= 1000)
                             {
-                                player.UpgradeHealth();
+                                player.UpgradeHealth(game);
                                 PurchaseConfirmation("Health increased by 10!");
                             }  
                             break;
@@ -291,7 +289,7 @@ namespace ConsolePlatformer
             if (Console.ReadKey().Key == ConsoleKey.Spacebar && newWeapon != null)
             {
                 player.EquipWeapon(newWeapon);
-                game.Background.DrawStatusBar(player);
+                game.Background.DrawStatusBar(player, game);
             }  
 
             ClearMenu();
@@ -315,7 +313,7 @@ namespace ConsolePlatformer
             double reloadSpeed;
 
             player.Cash -= 1000;
-            game.Background.DrawStatusBar(player);
+            game.Background.DrawStatusBar(player, game);
 
             if (weaponTypeRnd == 1)
                 weaponType = WeaponTypes.ROCKETLAUNCHER;
