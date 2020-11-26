@@ -159,7 +159,7 @@ namespace ConsolePlatformer
                             if (onMainMenu && player.Cash >= 1000)
                             {
                                 player.UpgradeHealth(game);
-                                PurchaseConfirmation("Health increased by 10!");
+                                PurchaseConfirmation("Health increased by 10!", false);
                             }  
                             break;
                         case ConsoleKey.W:
@@ -167,7 +167,7 @@ namespace ConsolePlatformer
                             {
                                 newWeapon = CreateNewWeapon();
                                 player.Inventory.Add(newWeapon);
-                                PurchaseConfirmation(newWeapon.ToString());
+                                PurchaseConfirmation(newWeapon.ToString(), true);
                             }
                             break;
                         case ConsoleKey.UpArrow:
@@ -230,6 +230,7 @@ namespace ConsolePlatformer
                                 Console.BackgroundColor = ConsoleColor.Black;
                                 filteredInventory[itemNumber].Equip();
                                 player.EquipWeapon(filteredInventory[itemNumber]);
+                                PurchaseConfirmation(filteredInventory[itemNumber].ToString(), false);
                             }
                             break;
                         case ConsoleKey.Enter:
@@ -258,29 +259,30 @@ namespace ConsolePlatformer
         /// Draws a small menu box with the information about a user purchase
         /// </summary>
         /// <param name="purchase">string that states what was purchased</param>
-        private void PurchaseConfirmation(string purchase)
+        private void PurchaseConfirmation(string purchase, bool purchased)
         {
             int startTop = Top + 8;
+            string confirmMessage = purchased ? "SpaceBar to Equip" : "was equipped";
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(LeftBound + 30, startTop);
-            for (int i = 0; i < 50; i++) Console.Write(' ');
+            Console.SetCursorPosition(LeftBound + 29, startTop);
+            for (int i = 0; i < 51; i++) Console.Write(' ');
             for (int j = 1; j < 12; j++)
             {
-                Console.SetCursorPosition(LeftBound + 30, startTop + j);
+                Console.SetCursorPosition(LeftBound + 29, startTop + j);
                 Console.Write(' ');
                 Console.BackgroundColor = ConsoleColor.Black;
-                for (int i = 0; i < 48; i++) Console.Write(' ');
+                for (int i = 0; i < 49; i++) Console.Write(' ');
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.Write(' ');
             }
-            Console.SetCursorPosition(LeftBound + 30, startTop + 11);
+            Console.SetCursorPosition(LeftBound + 29, startTop + 11);
             for (int i = 0; i < 50; i++) Console.Write(' ');
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.SetCursorPosition(LeftBound + 35, startTop + 5);
-            Console.Write($" {purchase, -20}");
-            Console.SetCursorPosition(LeftBound + 41, startTop + 8);
-            Console.Write($"SpaceBar to Equip");
+            Console.SetCursorPosition(GetCenter(purchase, LeftBound, RightBound) + 4, startTop + 5);
+            Console.Write($"{purchase}");
+            Console.SetCursorPosition(GetCenter(confirmMessage, LeftBound, RightBound) + 4, startTop + 8);
+            Console.Write(confirmMessage);
 
             while (!Console.KeyAvailable)
             {
