@@ -7,14 +7,14 @@ using System.Threading;
 namespace ConsolePlatformer
 {
     /// <summary>
-    /// Menu clas displays a menu on screen where player can view inventory, equip weapons, buy health, and buy weapons.
+    /// Menu class displays a menu on screen where player can view inventory, equip weapons, buy health, and buy weapons.
     /// This is also used to display end game data.
     /// </summary>
     class Menu
     {
         private Game game;
         private Player player;
-        private List<IWeapon> filteredInventory;
+        private IList<IWeapon> filteredInventory;
         private Dictionary<int, IWeapon> weaponDict;
         private int LeftBound;
         private int RightBound;

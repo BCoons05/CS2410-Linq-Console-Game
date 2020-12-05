@@ -14,8 +14,8 @@ namespace ConsolePlatformer
             int Health = 25;
             int MaxHealth = 25;
             int Cash = 0;
-            List<string[]> inventoryList = new List<string[]>();
-            List<IWeapon> inventory = new List<IWeapon>();
+            IList<string[]> inventoryList = new List<string[]>();
+            IList<IWeapon> inventory = new List<IWeapon>();
 
             Background background = new Background(1, 105, 5, 29);
 

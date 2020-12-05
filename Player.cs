@@ -23,10 +23,10 @@ namespace ConsolePlatformer
 		public int MaxHealth { get; private set; }
 		public int CurrentHealth { get; private set; }
 		public int Cash { get; set; }
-		public List<IWeapon> Inventory { get; private set; }
+		public IList<IWeapon> Inventory { get; private set; }
 		public IWeapon EquipedWeapon { get; private set; }
 		private ConsoleColor Color = ConsoleColor.Red;
-		public Player(Background background, int position, int bottom, int health, int maxHealth, int cash, List<IWeapon> inventory)
+		public Player(Background background, int position, int bottom, int health, int maxHealth, int cash, IList<IWeapon> inventory)
 		{
 			this.background = background;
 			Position = position;
